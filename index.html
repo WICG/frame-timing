@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <title>Web Smoothness Timing</title>
+    <title>Frame Timing</title>
     <style type="text/css">
       pre.idl { border:solid thin; background:#eee; color:#000; padding:0.5em }
       pre.idl :link, pre.idl :visited { color:inherit; background:transparent }
@@ -41,24 +41,24 @@
     <div class="head">
       <a href="http://www.w3.org/"><img alt="W3C" height="48" src="http://www.w3.org/Icons/w3c_home" width="72" /></a>
       <h1>
-        Smoothness Timing</h1>
+        Frame Timing</h1>
       <dl>
         <dt>
           This version:</dt>
         <dd>
-          <a href="https://w3c.github.io/smoothness">https://w3c.github.io/smoothness/</a></dd>
+          <a href="https://w3c.github.io/frame-timing">https://w3c.github.io/frame-timing/</a></dd>
         <dt>
           Latest version:</dt>
         <dd>
-          <a href="https://w3c.github.io/smoothness/">https://w3c.github.io/smoothness/</a></dd>
+          <a href="https://w3c.github.io/frame-timing/">https://w3c.github.io/frame-timing/</a></dd>
         <dt>
           Latest Editor's Draft:</dt>
         <dd>
-          <a href="https://w3c.github.io/smoothness/">https://w3c.github.io/smoothness/</a></dd>
+          <a href="https://w3c.github.io/frame-timing/">https://w3c.github.io/frame-timing/</a></dd>
         <dt>
           Previous version:</dt>
         <dd>
-          <a href="https://w3c.github.io/smoothness/">https://w3c.github.io/smoothness/</a></dd>
+          <a href="https://w3c.github.io/frame-timing/">https://w3c.github.io/frame-timing/</a></dd>
         <dt>
           Editors:</dt>
         <dd class="vcard">
@@ -81,7 +81,7 @@
       <h2 class="no-num no-toc" id="abstract">
         Abstract</h2>
       <p>
-        This specification defines an interface to help web developers measure the performance of their applications by giving them access to frame performance data to facilitate Smoothness (i.e. Frames per Second and Time to Frame) measurements.</p>
+        This specification defines an interface to help web developers measure the performance of their applications by giving them access to frame performance data to facilitate smoothness (i.e. Frames per Second and Time to Frame) measurements.</p>
 
 
       <h2 class="no-num no-toc" id="status-of-this-document">
@@ -110,7 +110,7 @@
         <li>
           <a href="#terminology"><span class="secno">3 </span>Terminology</a></li>
         <li>
-          <a href="#smoothness-timing-0"><span class="secno">4 </span>Smoothness Timing</a>
+          <a href="#frame-timing-0"><span class="secno">4 </span>Frame Timing</a>
           <ol class="toc">
             <li>
               <a href="#introduction-1"><span class="secno">4.1</span> Introduction</a></li>
@@ -175,8 +175,8 @@
         The term &quot;JavaScript&quot; is used to refer to ECMAScript <a href="#ECMA262">[ECMA262]</a>, rather than the official term ECMAScript, since the term JavaScript is more widely known.</p>
 
 
-      <h2 id="smoothness-timing-0">
-        <span class="secno">4 </span>Smoothness Timing</h2>
+      <h2 id="frame-timing-0">
+        <span class="secno">4 </span>Frame Timing</h2>
 
 
       <h3 id="introduction-1">
@@ -191,17 +191,17 @@
         <span class="secno">4.2</span> Extensions to the <code>Performance</code> Interface</h3>
       <pre class="idl">
   partial interface <a href="http://www.w3.org/TR/navigation-timing/#performance">Performance</a> {
-    void <a href="#dom-performance-clearsmoothnesstimings">clearSmoothnessTimings</a>();
-    void <a href="#dom-performance-setsmoothnesstimingbuffersize">setSmoothnessTimingBufferSize</a>(unsigned long maxSize);
+    void <a href="#dom-performance-clearframetimings">clearFrameTimings</a>();
+    void <a href="#dom-performance-setframetimingbuffersize">setFrameTimingBufferSize</a>(unsigned long maxSize);
 
-    attribute Function <a href="#dom-performance-onsmoothnesstimingbufferfull">onsmoothnesstimingbufferfull</a>;
+    attribute Function <a href="#dom-performance-onframetimingbufferfull">onframetimingbufferfull</a>;
   };
     </pre>
       <div class="methods">
-        <h4 id="dom-performance-clearsmoothnesstimings">
-          <code>clearSmoothnessTimings</code> method</h4>
+        <h4 id="dom-performance-clearframetimings">
+          <code>clearFrameTimings</code> method</h4>
         <p>
-          The method <code>clearSmoothnessTimings</code> clears the buffer used to store the current list of <a href="#performancemainframetiming">PerformanceMainFrameTiming</a> resources.</p>
+          The method <code>clearFrameTimings</code> clears the buffer used to store the current list of <a href="#performancemainframetiming">PerformanceMainFrameTiming</a> resources.</p>
         <div class="parameters">
           <p>
             <b>No parameters</b></p>
@@ -212,14 +212,14 @@
         </div>
       </div>
       <div class="methods">
-        <h4 id="dom-performance-setsmoothnesstimingbuffersize">
-          <code>setSmoothnessTimingBufferSize</code> method</h4>
+        <h4 id="dom-performance-setframetimingbuffersize">
+          <code>setFrameTimingBufferSize</code> method</h4>
         <p>
-          The <code>setSmoothnessTimingBufferSize</code> method, when invoked, must set the maximum number of <a href="#performancemainframetiming">PerformanceMainFrameTiming</a> resources that may be stored in the buffer to the value of the maxSize parameter.</p>
+          The <code>setFrameTimingBufferSize</code> method, when invoked, must set the maximum number of <a href="#performancemainframetiming">PerformanceMainFrameTiming</a> resources that may be stored in the buffer to the value of the maxSize parameter.</p>
         <p>
           If this method is not called, the user agent should store at least 150 <a href="#performancemainframetiming">PerformanceMainFrameTiming</a> resources in the buffer, unless otherwise specified by the user agent.</p>
         <p>
-          if the maxSize parameter is less than the number of elements currently stored in the buffer, no elements in the buffer are to be removed. The maxSize parameter will apply only after the <a href="#dom-performance-clearsmoothnesstimings">clearSmoothnessTimings</a> method is called.</p>
+          if the maxSize parameter is less than the number of elements currently stored in the buffer, no elements in the buffer are to be removed. The maxSize parameter will apply only after the <a href="#dom-performance-clearframetimings">clearFrameTimings</a> method is called.</p>
         <div class="parameters">
           <p>
             <b>Parameters</b></p>
@@ -233,17 +233,17 @@
         </div>
       </div>
       <div class="methods">
-        <h4 id="dom-performance-onsmoothnesstimingbufferfull">
-          <code>onsmoothnesstimingbufferfull</code> attribute</h4>
+        <h4 id="dom-performance-onframetimingbufferfull">
+          <code>onframetimingbufferfull</code> attribute</h4>
         <p>
-          The callback onsmoothnesstimingbufferfull is triggered when the buffer used to store the list of <a href="#performancemainframetiming">PerformanceMainFrameTiming</a> is full. The callback can be used to package existing <a href="#performancemainframetiming">PerformanceMainFrameTiming</a> resources and clear the buffered <a href="#performancemainframetiming">PerformanceMainFrameTiming</a> list. While executing the onsmoothnesstimingbufferfull callback, <a href="#performancemainframetiming">PerformanceMainFrameTiming</a> will continue to be collected beyond the maximum limit of the resources allowed in the <a href="#performancemainframetiming">PerformanceMainFrameTiming</a> interface until one of the following occurs:</p>
+          The callback onframetimingbufferfull is triggered when the buffer used to store the list of <a href="#performancemainframetiming">PerformanceMainFrameTiming</a> is full. The callback can be used to package existing <a href="#performancemainframetiming">PerformanceMainFrameTiming</a> resources and clear the buffered <a href="#performancemainframetiming">PerformanceMainFrameTiming</a> list. While executing the onframetimingbufferfull callback, <a href="#performancemainframetiming">PerformanceMainFrameTiming</a> will continue to be collected beyond the maximum limit of the resources allowed in the <a href="#performancemainframetiming">PerformanceMainFrameTiming</a> interface until one of the following occurs:</p>
         <ol>
           <li>
-            <a href="#dom-performance-clearsmoothnesstimings"><code>clearSmoothnessTimings</code></a> is called - The <a href="http://www.w3.org/TR/performance-timeline/#performanceentrylist">PerformanceEntryList</a> will begin with the n+1th item if it exists and the first n elements are released, where n is the maximum number of resources allowed in the <a href="#performancemainframetiming">PerformanceMainFrameTiming</a> interface. If the n+1th item does not exist, the buffer is cleared. The max length of the <a href="http://www.w3.org/TR/performance-timeline/#performanceentrylist">PerformanceEntryList</a> does not change unless otherwise specified by <a href="#dom-performance-setsmoothnesstimingbuffersize"><code>setSmoothnessTimingBufferSize</code></a>.</li>
+            <a href="#dom-performance-clearframetimings"><code>clearFrameTimings</code></a> is called - The <a href="http://www.w3.org/TR/performance-timeline/#performanceentrylist">PerformanceEntryList</a> will begin with the n+1th item if it exists and the first n elements are released, where n is the maximum number of resources allowed in the <a href="#performancemainframetiming">PerformanceMainFrameTiming</a> interface. If the n+1th item does not exist, the buffer is cleared. The max length of the <a href="http://www.w3.org/TR/performance-timeline/#performanceentrylist">PerformanceEntryList</a> does not change unless otherwise specified by <a href="#dom-performance-setframetimingbuffersize"><code>setFrameTimingBufferSize</code></a>.</li>
           <li>
-            <a href="#dom-performance-setsmoothnesstimingbuffersize"><code>setSmoothnessTimingBufferSize</code></a> is called - The <a href="http://www.w3.org/TR/performance-timeline/#performanceentrylist">PerformanceEntryList</a> will extend and / or truncate to the buffer size specified.</li>
+            <a href="#dom-performance-setframetimingbuffersize"><code>setFrameTimingBufferSize</code></a> is called - The <a href="http://www.w3.org/TR/performance-timeline/#performanceentrylist">PerformanceEntryList</a> will extend and / or truncate to the buffer size specified.</li>
           <li>
-            Neither <a href="#dom-performance-clearsmoothnesstimings"><code>clearSmoothnessTimings</code></a> or <a href="#dom-performance-setsmoothnesstimingbuffersize"><code>setSmoothnessTimingBufferSize</code></a> is called during the execution of the onsmoothnesstimingbufferfull callback - no updates are made to the <a href="http://www.w3.org/TR/performance-timeline/#performanceentrylist">PerformanceEntryList</a>.</li>
+            Neither <a href="#dom-performance-clearframetimings"><code>clearFrameTimings</code></a> or <a href="#dom-performance-setframetimingbuffersize"><code>setFrameTimingBufferSize</code></a> is called during the execution of the dom-performance-onframetimingbufferfulltimingbufferfull callback - no updates are made to the <a href="http://www.w3.org/TR/performance-timeline/#performanceentrylist">PerformanceEntryList</a>.</li>
         </ol>
       </div>
 

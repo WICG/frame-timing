@@ -264,7 +264,7 @@
         <p>
           The <code>entryType</code> attribute will return the <a href="http://www.w3.org/TR/WebIDL/#idl-DOMString"><code>DOMString</code></a> <code>mainframe</code>.</p>
         <p>
-          The <code>startTime</code> attribute will return a <a href="http://www.w3.org/TR/hr-time/#domhighrestimestamp"><code>DOMHighResTimeStamp</code></a> with current frame's beginning time value <a href="#HighResolutionTime">[High Resolution Time]</a>.</p>
+          The <code>startTime</code> attribute will return a <a href="http://www.w3.org/TR/hr-time/#domhighrestimestamp"><code>DOMHighResTimeStamp</code></a> with current frame's beginning time value (identical to the frame beginning time used for <a href="https://dvcs.w3.org/hg/webperf/raw-file/tip/specs/RequestAnimationFrame/Overview.html#processingmodel">requestAnimationFrame</a> callbacks) <a href="#HighResolutionTime">[High Resolution Time]</a>.</p>
         <p>
           The <code>duration</code> attribute will return a <a href="http://www.w3.org/TR/hr-time/#domhighrestimestamp"><code>DOMHighResTimeStamp</code></a> with the duration of the frame, computed by subtracting the <code>startTime</code> of the next frame from <code>startTime</code> of the current frame.</p>
       </div>
@@ -350,6 +350,10 @@
           [<a id="HighResolutionTime">High Resolution Time</a>]</dt>
         <dd>
           <cite><a href="http://www.w3.org/TR/2012/CR-hr-time-20120522/">High Resolution Time</a></cite>, Jatinder Mann, Editor. World Wide Web Consortium, May 2012. This version of the High Resolution Time specification is available from http://www.w3.org/TR/2012/CR-hr-time-20120522/. The <a href="http://www.w3.org/TR/hr-time/">latest version of High Resolution Time</a> is available at http://www.w3.org/TR/hr-time/.</dd>
+        <dt>
+          [<a id="RequestAnimationFrame">Timing control for script-based animations</a>]</dt>
+        <dd>
+          <cite><a href="http://www.w3.org/TR/2013/CR-animation-timing-20131031/">Timing control for script-based animations</a></cite>, James Robinson, et al, Editors. World Wide Web Consortium, October 2013. This version of the Timing control for script-based animations specification is available from http://www.w3.org/TR/2013/CR-animation-timing-20131031/. The <a href="http://www.w3.org/TR/animation-timing/">latest version of Timing control for script-based animations</a> is available at http://www.w3.org/TR/animation-timing/.</dd>
         <dt>
           [<a id="WebIDL">Web IDL</a>]</dt>
         <dd>

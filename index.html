@@ -1,364 +1,237 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
   <head>
-    <meta charset="utf-8" />
     <title>Frame Timing</title>
-    <style type="text/css">
-      pre.idl { border:solid thin; background:#eee; color:#000; padding:0.5em }
-      pre.idl :link, pre.idl :visited { color:inherit; background:transparent }
-      pre code { color:inherit; background:transparent }
-      div.example { margin-left:1em; padding-left:1em; border-left:double; color:#222; background:#fcfcfc }
-      .note { margin-left:2em; font-weight:bold; font-style:italic; color:#008000 }
-      p.note::before { content:"Note: " }
-      .XXX { padding:.5em; border:solid #f00 }
-      p.XXX::before { content:"Issue: " }
-      dl.switch { padding-left:2em }
-      dl.switch > dt { text-indent:-1.5em }
-      dl.switch > dt:before { content:'\21AA'; padding:0 0.5em 0 0; display:inline-block; width:1em; text-align:right; line-height:0.5em }
-      dl.domintro { color: green; margin: 2em 0 2em 2em; padding: 0.5em 1em; border: none; background: #DDFFDD; }
-      dl.domintro dt, dl.domintro dt * { color: black; text-decoration: none; }
-      dl.domintro dd { margin: 0.5em 0 1em 2em; padding: 0; }
-      dl.domintro dd p { margin: 0.5em 0; }
-      dl.domintro:before { display: table; margin: -1em -0.5em -0.5em auto; width: auto; content: 'This box is non-normative. Implementation requirements are given below this box.'; color: red; border: solid 2px; background: white; padding: 0 0.25em; }
-      em.ct { text-transform:lowercase; font-variant:small-caps; font-style:normal }
-      dfn { font-weight:bold; font-style:normal }
-      code { color:orangered }
-      code :link, code :visited { color:inherit }
-      hr:not(.top) { display:block; background:none; border:none; padding:0; margin:2em 0; height:auto }
-      table { border-collapse:collapse; border-style:hidden hidden none hidden }
-      table thead { border-bottom:solid }
-      table tbody th:first-child { border-left:solid }
-      table td, table th { border-left:solid; border-right:solid; border-bottom:solid thin; vertical-align:top; padding:0.2em }
-      div.parameters { display:block; margin-left: 25px;}
-      div.parameterDefinition { display:block; margin-left: 25px;}
-      div.methods { display:block; margin-top:30px; margin-left :25px;}
-    </style>
-    <link href="//www.w3.org/StyleSheets/TR/W3C-ED.css" rel="stylesheet" type="text/css" />
+    <meta charset='utf-8'>
+    <script src='http://www.w3.org/Tools/respec/respec-w3c-common'
+            async class='remove'></script>
+    <script class='remove'>
+      var respecConfig = {
+          specStatus:           "ED",
+          shortName:            "frame-timing",
+          edDraftURI:           "https://w3c.github.io/frame-timing/",
+          editors:  [
+              {
+                  name:       "Michael Blain"
+              ,   url:        "http://github.org/mpb"
+              ,   mailto:     "mpb@google.com"
+              ,   company:    "Google"
+              ,   companyURL: "http://google.com/"
+              },
+              {
+                  name: "Ilya Grigorik"
+              ,   url: "https://www.igvita.com/"
+              ,   mailto: "igrigorik@gmail.com"
+              ,   company: "Google"
+              ,   companyURL: "https://google.com/"
+              },
+          ],
+          wg:           "Web Performance Working Group",
+          wgURI:        "http://www.w3.org/2010/webperf/",
+          wgPublicList: "public-web-perf",
+          subjectPrefix: "[Frame Timing]",
+          otherLinks: [{
+            key: 'Repository',
+            data: [{
+              value: 'We are on Github.',
+              href: 'https://github.com/w3c/frame-timing/'
+            }, {
+              value: 'File a bug.',
+              href: 'https://github.com/w3c/frame-timing/issues'
+            }, {
+              value: 'Commit history.',
+              href: 'https://github.com/w3c/frame-timing/commits/gh-pages/index.html'
+            }]
+          }],
+
+
+          // URI of the patent status for this WG, for Rec-track documents
+          // !!!! IMPORTANT !!!!
+          // This is important for Rec-track documents, do not copy a patent URI from a random
+          // document unless you know what you're doing. If in doubt ask your friendly neighbourhood
+          // Team Contact.
+          wgPatentURI:  "",
+          // !!!! IMPORTANT !!!! MAKE THE ABOVE BLINK IN YOUR HEAD
+      };
+    </script>
   </head>
-  <body class="draft">
-
-
-    <div class="head">
-      <a href="http://www.w3.org/"><img alt="W3C" height="48" src="http://www.w3.org/Icons/w3c_home" width="72" /></a>
-      <h1>
-        Frame Timing</h1>
-      <dl>
-        <dt>
-          This version:</dt>
-        <dd>
-          <a href="https://w3c.github.io/frame-timing">https://w3c.github.io/frame-timing/</a></dd>
-        <dt>
-          Latest version:</dt>
-        <dd>
-          <a href="https://w3c.github.io/frame-timing/">https://w3c.github.io/frame-timing/</a></dd>
-        <dt>
-          Latest Editor's Draft:</dt>
-        <dd>
-          <a href="https://w3c.github.io/frame-timing/">https://w3c.github.io/frame-timing/</a></dd>
-        <dt>
-          Previous version:</dt>
-        <dd>
-          <a href="https://w3c.github.io/frame-timing/">https://w3c.github.io/frame-timing/</a></dd>
-        <dt>
-          Editors:</dt>
-        <dd class="vcard">
-          <span class="fn">Michael Blain</span>, <span class="org">Google Inc.</span>, <span class="email">mpb@google.com</span></dd>
-        <dd class="vcard">
-          <span class="fn">Nat Duca</span>, <span class="org">Google Inc.</span>, <span class="email">nduca@chromium.org</span></dd>
-      </dl>
-      <p class="copyright">
-        <a href="http://www.w3.org/Consortium/Legal/ipr-notice#Copyright">Copyright</a> &copy; 2012 <a href="http://www.w3.org/"><abbr title="World Wide Web
-    Consortium">W3C</abbr></a><sup>&reg;</sup> (<a href="http://www.csail.mit.edu/"><abbr title="Massachusetts Institute
-    of Technology">MIT</abbr></a>, <a href="http://www.ercim.eu/"><abbr title="European Research Consortium
-    for Informatics and Mathematics">ERCIM</abbr></a>, <a href="http://www.keio.ac.jp/">Keio</a>), All Rights Reserved. W3C <a href="http://www.w3.org/Consortium/Legal/ipr-notice#Legal_Disclaimer">liability</a>, <a href="http://www.w3.org/Consortium/Legal/ipr-notice#W3C_Trademarks">trademark</a> and <a href="http://www.w3.org/Consortium/Legal/copyright-documents">document use</a> rules apply.</p>
-      <hr class="top" />
-    </div>
-
-
-    <div class="body">
-
-
-      <h2 class="no-num no-toc" id="abstract">
-        Abstract</h2>
+  <body>
+    <section id='abstract'>
       <p>
-        This specification defines an interface to help web developers measure the performance of their applications by giving them access to frame performance data to facilitate smoothness (i.e. Frames per Second and Time to Frame) measurements.</p>
-
-
-      <h2 class="no-num no-toc" id="status-of-this-document">
-        Status of this document</h2>
+        This specification defines an interface to help web developers measure the performance of their applications by giving them access to frame performance data to facilitate smoothness (i.e. Frames per Second and Time to Frame) measurements.
+      </p>
+    </section>
+    
+    <section id='sotd'>
       <p>
-        <em>This section describes the status of this document at the time of its publication. Other documents may supersede this document. A list of current W3C publications and the latest revision of this technical report can be found in the <a href="http://www.w3.org/TR/">W3C technical reports index</a> at http://www.w3.org/TR/.</em></p>
+        This is a <strong>work in progress</strong> and may change without any notices.
+      </p>
+    </section>
+    
+    <section class='informative'>
+      <h2>Introduction</h2>
       <p>
-        This is a <strong>work in progress</strong> and may change without any notices.</p>
-      <p>
-        Please send comments to <a href="mailto:public-web-perf@w3.org?subject=%5BPerformanceTimeline%5D%20">public-web-perf@w3.org</a> (<a href="http://lists.w3.org/Archives/Public/public-web-perf/">archived</a>) with <samp>[PerformanceTimeline]</samp> at the start of the subject line.</p>
-      <p>
-        This document is produced by the <a href="http://www.w3.org/2010/webperf/">Web Performance</a> Working Group. The Web Performance Working Group is part of the <a href="http://www.w3.org/2006/rwc/Activity">Rich Web Clients Activity</a> in the W3C<a href="http://www.w3.org/Interaction/">Interaction Domain</a>.</p>
-      <p>
-        Publication as a Working Draft does not imply endorsement by the W3C Membership. This is a draft document and may be updated, replaced or obsoleted by other documents at any time. It is inappropriate to cite this document as other than work in progress.</p>
-      <p>
-        This document was produced by a group operating under the <a href="http://www.w3.org/Consortium/Patent-Policy-20040205/">5 February 2004 W3C Patent Policy</a>. W3C maintains a <a href="http://www.w3.org/2004/01/pp-impl/45211/status" rel="disclosure">public list of any patent disclosures</a> made in connection with the deliverables of the group; that page also includes instructions for disclosing a patent. An individual who has actual knowledge of a patent which the individual believes contains <a href="http://www.w3.org/Consortium/Patent-Policy-20040205/#def-essential">Essential Claim(s)</a> must disclose the information in accordance with <a href="http://www.w3.org/Consortium/Patent-Policy-20040205/#sec-Disclosure">section 6 of the W3C Patent Policy</a>.</p>
-
-
-      <h2 class="no-num no-toc" id="table-of-contents">
-        Table of Contents</h2>
-      <ol class="toc">
-        <li>
-          <a href="#introduction"><span class="secno">1 </span>Introduction</a></li>
-        <li>
-          <a href="#conformance-requirements"><span class="secno">2 </span>Conformance requirements</a></li>
-        <li>
-          <a href="#terminology"><span class="secno">3 </span>Terminology</a></li>
-        <li>
-          <a href="#frame-timing-0"><span class="secno">4 </span>Frame Timing</a>
-          <ol class="toc">
-            <li>
-              <a href="#introduction-1"><span class="secno">4.1</span> Introduction</a></li>
-            <li>
-              <a href="#extensions-performance-interface"><span class="secno">4.2</span> Extensions to the <code>Performance</code> Interface</a></li>
-            <li>
-              <a href="#performancemainframetiming"><span class="secno">4.3</span> The <code>PerformanceMainFrameTiming</code> Interface</a></li>
-            <li>
-              <a href="#performancecompositetiming"><span class="secno">4.4</span> The <code>PerformanceCompositeTiming</code> Interface</a></li>
-          </ol>
-        </li>
-        <li>
-          <a href="#monotonic-clock"><span class="secno">5 </span>Monotonic Clock</a></li>
-        <li>
-          <a href="#privacy-security"><span class="secno">6 </span>Privacy and Security</a></li>
-        <li>
-          <a class="no-num" href="#acknowledgements">Acknowledgements</a></li>
-        <li>
-          <a class="no-num" href="#references">References</a></li>
-      </ol>
-
-
-      <h2 id="introduction">
-        <span class="secno">1 </span>Introduction</h2>
-      <p>
-        This section is non-normative.</p>
-      <p>
-        Web developers need the ability to assess and understand the performance characteristics of their applications. While JavaScript <a href="#ECMA262">[ECMA262]</a> provides a mechanism to approximate application Frames per Second (FPS) and Time to Frame (TTF) (by calling a nearly empty requestAnimationFrame in a loop), the precision of this method has a high variance. Some example situations where this returns misleading results are:</p>
-      <ul>
-        <li>
-          CSS Animations, which can be done off of the main thread and may not impact requestAnimationFrame</li>
-        <li>
-          Scrolling, which can also be handled mostly off of the main thread, and may not impact requestAnimationFrame</li>
-        <li>
-          Slow page loading (such as extensive DOM manipulation), which may consume a lot of time on the rendering thread and allow the main thread to fire a requestAnimationFrame event even though the new content has not yet been displayed to the user.</li>
-      </ul>
-      <p>
-        This document defines the <a href="#performancemainframetiming"><code>PerformanceMainFrameTiming</code></a> and <a href="#performancecompositetiming"><code>PerformanceCompositeTiming</code></a> interfaces, and extensions to the <a href="#extensions-performance-interface"><code>Performance</code></a> interface, which expose frame performance data to be used for smoothness measurements.</p>
-
-
-      <h2 id="conformance-requirements">
-        <span class="secno">2 </span>Conformance requirements</h2>
-      <p>
-        All diagrams, examples, and notes in this specification are non-normative, as are all sections explicitly marked non-normative. Everything else in this specification is normative.</p>
-      <p>
-        The key words &quot;MUST&quot;, &quot;MUST NOT&quot;, &quot;REQUIRED&quot;, &quot;SHOULD&quot;, &quot;SHOULD NOT&quot;, &quot;RECOMMENDED&quot;, &quot;MAY&quot;, and &quot;OPTIONAL&quot; in the normative parts of this document are to be interpreted as described in RFC2119. For readability, these words do not appear in all uppercase letters in this specification. <a href="#rfc2119">[RFC2119]</a></p>
-      <p>
-        Requirements phrased in the imperative as part of algorithms (such as &quot;strip any leading space characters&quot; or &quot;return false and abort these steps&quot;) are to be interpreted with the meaning of the key word (&quot;must&quot;, &quot;should&quot;, &quot;may&quot;, etc) used in introducing the algorithm.</p>
-      <p>
-        Some conformance requirements are phrased as requirements on attributes, methods or objects. Such requirements are to be interpreted as requirements on user agents.</p>
-      <p>
-        Conformance requirements phrased as algorithms or specific steps may be implemented in any manner, so long as the end result is equivalent. (In particular, the algorithms defined in this specification are intended to be easy to follow, and not intended to be performant.)</p>
-      <p>
-        The IDL fragments in this specification must be interpreted as required for conforming IDL fragments, as described in the Web IDL specification. <a href="#WebIDL">[Web IDL]</a></p>
-
-
-      <h2 id="terminology">
-        <span class="secno">3 </span>Terminology</h2>
-      <p>
-        The construction &quot;a <code title="">Foo</code> object&quot;, where <code title="">Foo</code> is actually an interface, is sometimes used instead of the more accurate &quot;an object implementing the interface <code title="">Foo</code>&quot;.</p>
-      <p>
-        The term &quot;JavaScript&quot; is used to refer to ECMAScript <a href="#ECMA262">[ECMA262]</a>, rather than the official term ECMAScript, since the term JavaScript is more widely known.</p>
-
-
-      <h2 id="frame-timing-0">
-        <span class="secno">4 </span>Frame Timing</h2>
-
-
-      <h3 id="introduction-1">
-        <span class="secno">4.1 </span>Introduction</h3>
-      <p>
-        This section is non-normative</p>
-      <p>
-        The <a href="#performancemainframetiming"><code>PerformanceMainFrameTiming</code></a> and <a href="#performancecompositetiming"><code>PerformanceCompositeTiming</code></a> interfaces and extensions to the <a href="#extensions-performance-interface"><code>Performance</code></a> interface give web developers access to browser smoothness information so they can better measure the performance characteristics of their applications.</p>
-
-
-      <h3 id="extensions-performance-interface">
-        <span class="secno">4.2</span> Extensions to the <code>Performance</code> Interface</h3>
-      <pre class="idl">
-  partial interface <a href="http://www.w3.org/TR/navigation-timing/#performance">Performance</a> {
-    void <a href="#dom-performance-clearframetimings">clearFrameTimings</a>();
-    void <a href="#dom-performance-setframetimingbuffersize">setFrameTimingBufferSize</a>(unsigned long maxSize);
-
-    attribute Function <a href="#dom-performance-onframetimingbufferfull">onframetimingbufferfull</a>;
-  };
-    </pre>
-      <div class="methods">
-        <h4 id="dom-performance-clearframetimings">
-          <code>clearFrameTimings</code> method</h4>
-        <p>
-          The method <code>clearFrameTimings</code> clears the buffer used to store the current list of <a href="#performancemainframetiming">PerformanceMainFrameTiming</a> resources.</p>
-        <div class="parameters">
-          <p>
-            <b>No parameters</b></p>
-          <p>
-            <b>No return value</b></p>
-          <p>
-            <b>No additional exceptions</b></p>
-        </div>
-      </div>
-      <div class="methods">
-        <h4 id="dom-performance-setframetimingbuffersize">
-          <code>setFrameTimingBufferSize</code> method</h4>
-        <p>
-          The <code>setFrameTimingBufferSize</code> method, when invoked, must set the maximum number of <a href="#performancemainframetiming">PerformanceMainFrameTiming</a> resources that may be stored in the buffer to the value of the maxSize parameter.</p>
-        <p>
-          If this method is not called, the user agent should store at least 150 <a href="#performancemainframetiming">PerformanceMainFrameTiming</a> resources in the buffer, unless otherwise specified by the user agent.</p>
-        <p>
-          if the maxSize parameter is less than the number of elements currently stored in the buffer, no elements in the buffer are to be removed. The maxSize parameter will apply only after the <a href="#dom-performance-clearframetimings">clearFrameTimings</a> method is called.</p>
-        <div class="parameters">
-          <p>
-            <b>Parameters</b></p>
-          in <code>maxSize</code> type of unsigned long
-          <p>
-            The maxSize parameter sets the maximum number of <a href="#performancemainframetiming">PerformanceMainFrameTiming</a> resources that will be stored in the buffer.</p>
-          <p>
-            <b>No return value</b></p>
-          <p>
-            <b>No additional exceptions</b></p>
-        </div>
-      </div>
-      <div class="methods">
-        <h4 id="dom-performance-onframetimingbufferfull">
-          <code>onframetimingbufferfull</code> attribute</h4>
-        <p>
-          The callback onframetimingbufferfull is triggered when the buffer used to store the list of <a href="#performancemainframetiming">PerformanceMainFrameTiming</a> is full. The callback can be used to package existing <a href="#performancemainframetiming">PerformanceMainFrameTiming</a> resources and clear the buffered <a href="#performancemainframetiming">PerformanceMainFrameTiming</a> list. While executing the onframetimingbufferfull callback, <a href="#performancemainframetiming">PerformanceMainFrameTiming</a> will continue to be collected beyond the maximum limit of the resources allowed in the <a href="#performancemainframetiming">PerformanceMainFrameTiming</a> interface until one of the following occurs:</p>
-        <ol>
+        Web developers need the ability to assess and understand the performance characteristics of their applications. While JavaScript [[ECMA-262]] provides a mechanism to approximate application Frames per Second (FPS) and Time to Frame (TTF) (by calling a nearly empty <code>requestAnimationFrame</code> [[Animation-Timing]] in a loop), the precision of this method has a high variance. Some example situations where this returns misleading results are:
+        <ul>
           <li>
-            <a href="#dom-performance-clearframetimings"><code>clearFrameTimings</code></a> is called - The <a href="http://www.w3.org/TR/performance-timeline/#performanceentrylist">PerformanceEntryList</a> will begin with the n+1th item if it exists and the first n elements are released, where n is the maximum number of resources allowed in the <a href="#performancemainframetiming">PerformanceMainFrameTiming</a> interface. If the n+1th item does not exist, the buffer is cleared. The max length of the <a href="http://www.w3.org/TR/performance-timeline/#performanceentrylist">PerformanceEntryList</a> does not change unless otherwise specified by <a href="#dom-performance-setframetimingbuffersize"><code>setFrameTimingBufferSize</code></a>.</li>
+            CSS Animations, which can be done off of the main thread and may not impact <code>requestAnimationFrame</code>
+          </li>
           <li>
-            <a href="#dom-performance-setframetimingbuffersize"><code>setFrameTimingBufferSize</code></a> is called - The <a href="http://www.w3.org/TR/performance-timeline/#performanceentrylist">PerformanceEntryList</a> will extend and / or truncate to the buffer size specified.</li>
+            Scrolling, which can also be handled mostly off of the main thread, and may not impact <code>requestAnimationFrame</code>
+          </li>
           <li>
-            Neither <a href="#dom-performance-clearframetimings"><code>clearFrameTimings</code></a> or <a href="#dom-performance-setframetimingbuffersize"><code>setFrameTimingBufferSize</code></a> is called during the execution of the dom-performance-onframetimingbufferfulltimingbufferfull callback - no updates are made to the <a href="http://www.w3.org/TR/performance-timeline/#performanceentrylist">PerformanceEntryList</a>.</li>
-        </ol>
-      </div>
-
-
-      <h3 id="performancemainframetiming">
-        <span class="secno">4.3</span> The <code>PerformanceMainFrameTiming</code> Interface</h3>
-      <pre class="idl">
-  interface PerformanceMainFrameTiming : <a href="http://www.w3.org/TR/performance-timeline/#performanceentry">PerformanceEntry</a> {
-    readonly attribute unsigned long <a href="#dom-performancemainframetiming-sourceframenumber-attribute">sourceFrameNumber</a>;
-    readonly attribute double <a href="#dom-performancemainframetiming-cputime-attribute">cpuTime</a>;
-  };
-    </pre>
+            Slow page loading (such as extensive DOM manipulation), which may consume a lot of time on the rendering thread and allow the main thread to fire a <code>requestAnimationFrame</code> event even though the new content has not yet been displayed to the user.
+          </li>
+        </ul>
+      </p>
       <p>
-        The <a href="#performancemainframetiming">PerformanceMainFrameTiming</a> interface participates in the <a href="http://www.w3.org/TR/performance-timeline/#sec-performance-timeline">Performance Timeline</a> and extends the following attributes of the <a href="http://www.w3.org/TR/performance-timeline/#performanceentry">PerformanceEntry</a> interface:</p>
-      <div class="parameters">
-        <p>
-          The <code>name</code> attribute will return the name of the requesting document.</p>
-        <p>
-          The <code>entryType</code> attribute will return the <a href="http://www.w3.org/TR/WebIDL/#idl-DOMString"><code>DOMString</code></a> <code>mainframe</code>.</p>
-        <p>
-          The <code>startTime</code> attribute will return a <a href="http://www.w3.org/TR/hr-time/#domhighrestimestamp"><code>DOMHighResTimeStamp</code></a> with current frame's beginning time value (identical to the frame beginning time used for <a href="https://dvcs.w3.org/hg/webperf/raw-file/tip/specs/RequestAnimationFrame/Overview.html#processingmodel">requestAnimationFrame</a> callbacks) <a href="#HighResolutionTime">[High Resolution Time]</a>.</p>
-        <p>
-          The <code>duration</code> attribute will return a <a href="http://www.w3.org/TR/hr-time/#domhighrestimestamp"><code>DOMHighResTimeStamp</code></a> with the duration of the frame, computed by subtracting the <code>startTime</code> of the next frame from <code>startTime</code> of the current frame.</p>
-      </div>
-      <div>
-        <h4 id="dom-performancemainframetiming-sourceframenumber-attribute">
-          <code><dfn id="dom-performancemainframetiming-sourceframenumber">sourceFrameNumber</dfn></code> attribute</h4>
-        <p>
-          The <code>sourceFrameNumber</code> attribute must return the source frame number for the event. This is used to correlate <code>PerformanceMainFrameTiming</code> and <code>PerformanceCompositeTiming</code> events to measure time-to-frame delays. This may be null.</p>
-      </div>
-      <div>
-        <h4 id="dom-performancemainframetiming-cputime-attribute">
-          <code><dfn id="dom-performancemainframetiming-cputime">cpuTime</dfn></code> attribute</h4>
-        <p>
-          The <code>cpuTime</code> attribute must return a <a href="#HighResolutionTime"><code>[High Resolution Time]</code></a> duration giving the total CPU time used to process this frame.</p>
-      </div>
-      <h3 id="performancecompositetiming">
-        <span class="secno">4.4</span> The <code>PerformanceCompositeTiming</code> Interface</h3>
-      <pre class="idl">
-  interface PerformanceCompositeTiming : <a href="http://www.w3.org/TR/performance-timeline/#performanceentry">PerformanceEntry</a> {
-    readonly attribute unsigned long <a href="#dom-performancecompositetiming-sourceframenumber-attribute">sourceFrameNumber</a>;
-  };
-    </pre>
+        This document defines the <a href="#performancemainframetiming"><code>PerformanceMainFrameTiming</code></a> and <a href="#performancecompositetiming"><code>PerformanceCompositeTiming</code></a> interfaces, and extensions to the <a href="#extensions-performance-interface"><code>Performance</code></a> interface, which expose frame performance data to be used for smoothness measurements.
+      </p>
+    </section>
+    <section>
+      <h2>Conformance requirements</h2>
       <p>
-        The <a href="#performancecompositetiming">PerformanceCompositeTiming</a> interface participates in the <a href="http://www.w3.org/TR/performance-timeline/#sec-performance-timeline">Performance Timeline</a> and extends the following attributes of the <a href="http://www.w3.org/TR/performance-timeline/#performanceentry">PerformanceEntry</a> interface:</p>
-      <div class="parameters">
-        <p>
-          The <code>name</code> attribute will return the name of the requesting document.</p>
-        <p>
-          The <code>entryType</code> attribute will return the <a href="http://www.w3.org/TR/WebIDL/#idl-DOMString"><code>DOMString</code></a> <code>composite</code>.</p>
-        <p>
-          The <code>startTime</code> attribute will return a <a href="http://www.w3.org/TR/hr-time/#domhighrestimestamp"><code>DOMHighResTimeStamp</code></a> with event's time value <a href="#HighResolutionTime">[High Resolution Time]</a>.</p>
-        <p>
-          The <code>duration</code> attribute will return a <a href="http://www.w3.org/TR/hr-time/#domhighrestimestamp"><code>DOMHighResTimeStamp</code></a> of value 0.</p>
-      </div>
-      <div>
-        <h4 id="dom-performancecompositetiming-sourceframenumber-attribute">
-          <code><dfn id="dom-performancecompositetiming-sourceframenumber">sourceFrameNumber</dfn></code> attribute</h4>
-        <p>
-          The <code>sourceFrameNumber</code> attribute must return the last known source frame number for the event. This is used to correlate <code>PerformanceMainFrameTiming</code> and <code>PerformanceCompositeTiming</code> events to measure time-to-frame delays.</p>
-      </div>
-
-
-      <h2 id="monotonic-clock">
-        <span class="secno">5 </span>Monotonic Clock</h2>
+        All diagrams, examples, and notes in this specification are non-normative, as are all sections explicitly marked non-normative. Everything else in this specification is normative.
+      </p>
       <p>
-        The time values stored within the interface <span class="rfc2119">must</span> monotonically increase to ensure they are not affected by adjustments to the system clock. The difference between any two chronologically recorded time values <span class="rfc2119">must</span> never be negative. The user agent <span class="rfc2119">must</span> record the system clock at the beginning of the navigation and define subsequent time values in terms of a monotonic clock measuring time elapsed from the beginning of the navigation.</p>
-
-
-      <h2 id="privacy-security">
-        <span class="secno">6 </span>Privacy and Security</h2>
+        The key words "MUST", "MUST NOT", "REQUIRED", "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in the normative parts of this document are to be interpreted as described in [[RFC2119]].
+      </p>
       <p>
-        This section is non-normative.</p>
+        Requirements phrased in the imperative as part of algorithms (such as "strip any leading space characters" or "return false and abort these steps") are to be interpreted with the meaning of the key word ("must", "should", "may", etc) used in introducing the algorithm.
+      </p>
       <p>
-        The interfaces defined in this specification expose potentially sensitive timing information on specific JavaScript activity of a page. However, unlike other interfaces defined in the <a href="http://www.w3.org/TR/performance-timeline/#sec-performance-timeline">Performance Timeline</a>, the interfaces defined in this specification do not have any restrictions on sharing timing information through script. This is because the web platform has been designed with the invariant that any script included on a page has the same access as any other script included on that page regardless of the origin of the script.</p>
-
-
-      <h2 class="no-num" id="acknowledgements">
-        Acknowledgements</h2>
+        Some conformance requirements are phrased as requirements on attributes, methods or objects. Such requirements are to be interpreted as requirements on user agents.
+      </p>
       <p>
-        Thanks to Enne Walker, Rick Byers and Chris Harrelson for their helpful comments.</p>
-
-
-      <h2 class="no-num" id="references">
-        References</h2>
-      <dl>
-        <dt>
-          <a id="rfc2119">[IETF RFC 2119]</a></dt>
-        <dd>
-          <cite><a href="http://www.ietf.org/rfc/rfc2119.txt">Key words for use in RFCs to Indicate Requirement Levels</a></cite>, Scott Bradner, Author. Internet Engineering Task Force, March 1997. Available at <a href="http://www.ietf.org/rfc/rfc2119.txt">http://www.ietf.org/rfc/rfc2119.txt</a>.</dd>
-        <dt>
-          [<a id="ECMA262">ECMA-262</a>]</dt>
-        <dd>
-          <cite><a href="http://www.ecma-international.org/publications/standards/Ecma-262.htm">ECMAScript Language Specification</a></cite>, 5.1 Edition. ECMA International, Standard ECMA-262, June 2011. This version of the ECMAScript Language is available from http://www.ecma-international.org/publications/standards/Ecma-262.htm.</dd>
-        <dt>
-          [<a id="NavigationTiming">Navigation Timing</a>]</dt>
-        <dd>
-          <cite><a href="http://www.w3.org/TR/2012/PR-navigation-timing-20120726/">Navigation Timing</a></cite>, Zhiheng Wang, Editor. World Wide Web Consortium, July 2012. This version of the Navigation Timing specification is available from http://www.w3.org/TR/2012/PR-navigation-timing-20120726/. The <a href="http://www.w3.org/TR/navigation-timing/">latest version of Navigation Timing</a> is available at http://www.w3.org/TR/navigation-timing/.</dd>
-        <dt>
-          [<a id="PerformanceTimeline">Performance Timeline</a>]</dt>
-        <dd>
-          <cite><a href="http://www.w3.org/TR/2012/CR-performance-timeline-20120726/">Performance Timeline</a></cite>, Jatinder Mann, et al, Editors. World Wide Web Consortium, July 2012. This version of the Performance Timeline specification is available from http://www.w3.org/TR/2012/CR-performance-timeline-20120726/. The <a href="http://www.w3.org/TR/performance-timeline/">latest version of Performance Timeline</a> is available at http://www.w3.org/TR/performance-timeline/.</dd>
-        <dt>
-          [<a id="HighResolutionTime">High Resolution Time</a>]</dt>
-        <dd>
-          <cite><a href="http://www.w3.org/TR/2012/CR-hr-time-20120522/">High Resolution Time</a></cite>, Jatinder Mann, Editor. World Wide Web Consortium, May 2012. This version of the High Resolution Time specification is available from http://www.w3.org/TR/2012/CR-hr-time-20120522/. The <a href="http://www.w3.org/TR/hr-time/">latest version of High Resolution Time</a> is available at http://www.w3.org/TR/hr-time/.</dd>
-        <dt>
-          [<a id="RequestAnimationFrame">Timing control for script-based animations</a>]</dt>
-        <dd>
-          <cite><a href="http://www.w3.org/TR/2013/CR-animation-timing-20131031/">Timing control for script-based animations</a></cite>, James Robinson, et al, Editors. World Wide Web Consortium, October 2013. This version of the Timing control for script-based animations specification is available from http://www.w3.org/TR/2013/CR-animation-timing-20131031/. The <a href="http://www.w3.org/TR/animation-timing/">latest version of Timing control for script-based animations</a> is available at http://www.w3.org/TR/animation-timing/.</dd>
-        <dt>
-          [<a id="WebIDL">Web IDL</a>]</dt>
-        <dd>
-          <cite><a href="http://www.w3.org/TR/2012/CR-WebIDL-20120419/">Web IDL</a></cite>, Cameron McCormack, Editor. World Wide Web Consortium, April 2012. This version of the Web IDL specification is available from http://www.w3.org/TR/2012/CR-WebIDL-20120419/. The <a href="http://www.w3.org/TR/WebIDL/">latest version of Web IDL</a> is available at http://www.w3.org/TR/WebIDL/.</dd>
-      </dl>
-    </div>
+        Conformance requirements phrased as algorithms or specific steps may be implemented in any manner, so long as the end result is equivalent. (In particular, the algorithms defined in this specification are intended to be easy to follow, and not intended to be performant.)
+      </p>
+      <p>
+        The IDL fragments in this specification must be interpreted as required for conforming IDL fragments, as described in the Web IDL specification. [[WebIDL]]
+      </p>
+    </section>
+    <section>
+      <h2>Terminology</h2>
+      <p>
+        The construction &quot;a <code>Foo</code> object&quot;, where <code>Foo</code> is actually an interface, is sometimes used instead of the more accurate &quot;an object implementing the interface Foo&quot;.
+      </p>
+      <p>
+        The term "JavaScript" is used to refer to ECMAScript [[ECMA-262]], rather than the official term ECMAScript, since the term JavaScript is more widely known.
+      </p>
+    </section>
+    <section>
+      <h2>Frame Timing</h2>
+      <p>
+      </p>
+      <section class='informative'>
+        <h2>Introduction</h2>
+        <p>
+          The <a href="#performancemainframetiming"><code>PerformanceMainFrameTiming</code></a> and <a href="#performancecompositetiming"><code>PerformanceCompositeTiming</code></a> interfaces, and extensions to the <a href="#extensions-performance-interface"><code>Performance</code></a> interface give web developers access to browser smoothness information so they can better measure the performance characteristics of their applications.
+        </p>
+      </section>
+      <section id='extensions-performance-interface'>
+        <h2>Extensions to the <code>Performance</code> Interface</h2>
+        <p>
+          <dl title='partial interface Performance' class="idl">
+            <dt>void clearFrameTimings()</dt>
+            <dd>
+              The method <code>clearFrameTimings</code> clears the buffer used to store the current list of <a href="#performancemainframetiming">PerformanceMainFrameTiming</a> resources.
+            </dd>
+            <dt>void setFrameTimingBufferSize()</dt>
+            <dd>
+              <dl class='parameters'>
+                <dt>unsigned long maxSize</dt>
+                <dd>
+                  The maxSize parameter sets the maximum number of <a href="#performancemainframetiming">PerformanceMainFrameTiming</a> resources that will be stored in the buffer.
+                </dd>
+              </dl>
+              The <code>setFrameTimingBufferSize</code> method, when invoked, must set the maximum number of <a href="#performancemainframetiming">PerformanceMainFrameTiming</a> resources that may be stored in the buffer to the value of the <code>maxSize</code> parameter.
+            </dd>
+            <dt>attribute Function onframetimingbufferfull</dt>
+            <dd>
+              The callback onframetimingbufferfull is triggered when the buffer used to store the list of <a href="#performancemainframetiming">PerformanceMainFrameTiming</a> is full. The callback can be used to package existing <a href="#performancemainframetiming">PerformanceMainFrameTiming</a> resources and clear the buffered <a href="#performancemainframetiming">PerformanceMainFrameTiming</a> list. While executing the <code>onframetimingbufferfull</code> callback, <a href="#performancemainframetiming">PerformanceMainFrameTiming</a> will continue to be collected beyond the maximum limit of the resources allowed in the <a href="#performancemainframetiming">PerformanceMainFrameTiming</a> interface until one of the following occurs:
+              <ol>
+                <li>
+                  <a href="#widl-Performance-clearFrameTimings-void"><code>clearFrameTimings</code></a> is called - The <a href="http://www.w3.org/TR/performance-timeline/#performanceentrylist">PerformanceEntryList</a> will begin with the n+1th item if it exists and the first n elements are released, where n is the maximum number of resources allowed in the <a href="#performancemainframetiming">PerformanceMainFrameTiming</a> interface. If the n+1th item does not exist, the buffer is cleared. The max length of the <a href="http://www.w3.org/TR/performance-timeline/#performanceentrylist">PerformanceEntryList</a> does not change unless otherwise specified by <a href="#dom-performance-setframetimingbuffersize"><code>setFrameTimingBufferSize</code></a>.</li>
+                <li>
+                  <a href="#widl-Performance-setFrameTimingBufferSize-void-unsigned-long-maxSize"><code>setFrameTimingBufferSize</code></a> is called - The <a href="http://www.w3.org/TR/performance-timeline/#performanceentrylist">PerformanceEntryList</a> will extend and / or truncate to the buffer size specified.</li>
+                <li>
+                  Neither <a href="#widl-Performance-clearFrameTimings-void"><code>clearFrameTimings</code></a> or <a href="#widl-Performance-setFrameTimingBufferSize-void-unsigned-long-maxSize"><code>setFrameTimingBufferSize</code></a> is called during the execution of the <a href="#widl-Performance-onframetimingbufferfull"><code>onframetimingbufferfull</code></a> callback - no updates are made to the <a href="http://www.w3.org/TR/performance-timeline/#performanceentrylist">PerformanceEntryList</a>.</li>
+              </ol>
+            </dd>
+          </dl>
+        </p>
+      </section>
+      <section id='performancemainframetiming'>
+        <h2>The <code>PerformanceMainFrameTiming</code> Interface</h2>
+        <p>
+          The <a href="#performancemainframetiming">PerformanceMainFrameTiming</a> interface participates in the <a href="http://www.w3.org/TR/performance-timeline/#sec-performance-timeline">Performance Timeline</a> and extends the following attributes of the <a href="http://www.w3.org/TR/performance-timeline/#performanceentry">PerformanceEntry</a> interface:
+          <div class="parameters">
+            <p>
+              The <code>name</code> attribute will return the name of the requesting document.</p>
+            <p>
+              The <code>entryType</code> attribute will return the <a href="http://www.w3.org/TR/WebIDL/#idl-DOMString"><code>DOMString</code></a> <code>mainframe</code>.</p>
+            <p>
+              The <code>startTime</code> attribute will return a <a href="http://www.w3.org/TR/hr-time/#domhighrestimestamp"><code>DOMHighResTimeStamp</code></a> with current frame's beginning time value (identical to the frame beginning time used for <a href="https://dvcs.w3.org/hg/webperf/raw-file/tip/specs/RequestAnimationFrame/Overview.html#processingmodel">requestAnimationFrame</a> callbacks) [[HR-Time]].</p>
+            <p>
+              The <code>duration</code> attribute will return a <a href="http://www.w3.org/TR/hr-time/#domhighrestimestamp"><code>DOMHighResTimeStamp</code></a> with the duration of the frame, computed by subtracting the <code>startTime</code> of the next frame from <code>startTime</code> of the current frame.</p>
+          </div>
+        </p>
+        <p>
+          <dl title='interface PerformanceMainFrameTiming : <a href="http://www.w3.org/TR/performance-timeline/#performanceentry">PerformanceEntry</a>' class='idl'>
+            <dt>readonly attribute unsigned long sourceFrameNumber</dt>
+            <dd>
+              This attribute must return the source frame number for the event. This is used to correlate <code>PerformanceMainFrameTiming</code> and <code>PerformanceCompositeTiming</code> events to measure time-to-frame delays.
+            </dd>
+            <dt>readonly attribute double cpuTime</dt>
+            <dd>
+              This attribute must return a <a href="#bib-HR-Time">[High Resolution Time]</a> duration giving the total CPU time used to process this frame.
+            </dd>
+        </dl>
+        </p>
+      </section>
+      <section id='performancecompositetiming'>
+        <h2>The <code>PerformanceCompositeTiming</code> Interface</h2>
+        <p>
+          The <a href="#performancecompositetiming">PerformanceCompositeTiming</a> interface participates in the <a href="http://www.w3.org/TR/performance-timeline/#sec-performance-timeline">Performance Timeline</a> and extends the following attributes of the <a href="http://www.w3.org/TR/performance-timeline/#performanceentry">PerformanceEntry</a> interface:
+          <div class="parameters">
+            <p>
+              The <code>name</code> attribute will return the name of the requesting document.</p>
+            <p>
+              The <code>entryType</code> attribute will return the <a href="http://www.w3.org/TR/WebIDL/#idl-DOMString"><code>DOMString</code></a> <code>composite</code>.</p>
+            <p>
+              The <code>startTime</code> attribute will return a <a href="http://www.w3.org/TR/hr-time/#domhighrestimestamp"><code>DOMHighResTimeStamp</code></a> with the event's time value [[HR-Time]].</p>
+            <p>
+              The <code>duration</code> attribute will return a <a href="http://www.w3.org/TR/hr-time/#domhighrestimestamp"><code>DOMHighResTimeStamp</code></a> of value 0.</p>
+          </div>
+        </p>
+        <p>
+          <dl title='interface PerformanceCompositeTiming : <a href="http://www.w3.org/TR/performance-timeline/#performanceentry">PerformanceEntry</a>' class='idl'>
+            <dt>readonly attribute unsigned long sourceFrameNumber</dt>
+            <dd>
+              This attribute must return the last known source frame number for the event. This is used to correlate <code>PerformanceMainFrameTiming</code> and <code>PerformanceCompositeTiming</code> events to measure time-to-frame delays.
+            </dd>
+        </dl>
+        </p>
+      </section>
+    </section>
+    <section>
+      <h2>Monotonic Clock</h2>
+      <p>
+        The time values stored within the interface must monotonically increase to ensure they are not affected by adjustments to the system clock. The difference between any two chronologically recorded time values must never be negative. The user agent must record the system clock at the beginning of the navigation and define subsequent time values in terms of a monotonic clock measuring time elapsed from the beginning of the navigation.
+      </p>
+    </section>
+    <section class='informative'>
+      <h2>Privacy and Security</h2>
+      <p>
+        The interfaces defined in this specification expose potentially sensitive timing information on specific JavaScript activity of a page. However, unlike other interfaces defined in the Performance Timeline, the interfaces defined in this specification do not have any restrictions on sharing timing information through script. This is because the web platform has been designed with the invariant that any script included on a page has the same access as any other script included on that page regardless of the origin of the script.
+      </p>
+    </section>
+    
+    <section class='appendix'>
+      <h2>Acknowledgements</h2>
+      <p>
+        Thanks to Enne Walker, Rick Byers and Chris Harrelson for their helpful comments.
+      </p>
+    </section>
   </body>
 </html>

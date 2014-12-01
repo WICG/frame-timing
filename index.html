@@ -61,13 +61,13 @@
         This specification defines an interface to help web developers measure the performance of their applications by giving them access to frame performance data to facilitate smoothness (i.e. Frames per Second and Time to Frame) measurements.
       </p>
     </section>
-    
+
     <section id='sotd'>
       <p>
         This is a <strong>work in progress</strong> and may change without any notices.
       </p>
     </section>
-    
+
     <section class='informative'>
       <h2>Introduction</h2>
       <p>
@@ -85,7 +85,7 @@
         </ul>
       </p>
       <p>
-        This document defines the <a href="#performancemainframetiming"><code>PerformanceMainFrameTiming</code></a> and <a href="#performancecompositetiming"><code>PerformanceCompositeTiming</code></a> interfaces, and extensions to the <a href="#extensions-performance-interface"><code>Performance</code></a> interface, which expose frame performance data to be used for smoothness measurements.
+        This document defines the <a href="#performancerendertiming"><code>PerformanceRenderTiming</code></a> and <a href="#performancecompositetiming"><code>PerformanceCompositeTiming</code></a> interfaces, and extensions to the <a href="#extensions-performance-interface"><code>Performance</code></a> interface, which expose frame performance data to be used for smoothness measurements.
       </p>
     </section>
     <section>
@@ -125,7 +125,7 @@
       <section class='informative'>
         <h2>Introduction</h2>
         <p>
-          The <a href="#performancemainframetiming"><code>PerformanceMainFrameTiming</code></a> and <a href="#performancecompositetiming"><code>PerformanceCompositeTiming</code></a> interfaces, and extensions to the <a href="#extensions-performance-interface"><code>Performance</code></a> interface give web developers access to browser smoothness information so they can better measure the performance characteristics of their applications.
+          The <a href="#performancerendertiming"><code>PerformanceRenderTiming</code></a> and <a href="#performancecompositetiming"><code>PerformanceCompositeTiming</code></a> interfaces, and extensions to the <a href="#extensions-performance-interface"><code>Performance</code></a> interface give web developers access to browser smoothness information so they can better measure the performance characteristics of their applications.
         </p>
       </section>
       <section id='extensions-performance-interface'>
@@ -134,24 +134,24 @@
           <dl title='partial interface Performance' class="idl">
             <dt>void clearFrameTimings()</dt>
             <dd>
-              The method <code>clearFrameTimings</code> clears the buffer used to store the current list of <a href="#performancemainframetiming">PerformanceMainFrameTiming</a> resources.
+              The method <code>clearFrameTimings</code> clears the buffer used to store the current list of <a href="#performancerendertiming">PerformanceRenderTiming</a> resources.
             </dd>
             <dt>void setFrameTimingBufferSize()</dt>
             <dd>
               <dl class='parameters'>
                 <dt>unsigned long maxSize</dt>
                 <dd>
-                  The maxSize parameter sets the maximum number of <a href="#performancemainframetiming">PerformanceMainFrameTiming</a> resources that will be stored in the buffer.
+                  The maxSize parameter sets the maximum number of <a href="#performancerendertiming">PerformanceRenderTiming</a> resources that will be stored in the buffer.
                 </dd>
               </dl>
-              The <code>setFrameTimingBufferSize</code> method, when invoked, must set the maximum number of <a href="#performancemainframetiming">PerformanceMainFrameTiming</a> resources that may be stored in the buffer to the value of the <code>maxSize</code> parameter.
+              The <code>setFrameTimingBufferSize</code> method, when invoked, must set the maximum number of <a href="#performancerendertiming">PerformanceRenderTiming</a> resources that may be stored in the buffer to the value of the <code>maxSize</code> parameter.
             </dd>
             <dt>attribute Function onframetimingbufferfull</dt>
             <dd>
-              The callback onframetimingbufferfull is triggered when the buffer used to store the list of <a href="#performancemainframetiming">PerformanceMainFrameTiming</a> is full. The callback can be used to package existing <a href="#performancemainframetiming">PerformanceMainFrameTiming</a> resources and clear the buffered <a href="#performancemainframetiming">PerformanceMainFrameTiming</a> list. While executing the <code>onframetimingbufferfull</code> callback, <a href="#performancemainframetiming">PerformanceMainFrameTiming</a> will continue to be collected beyond the maximum limit of the resources allowed in the <a href="#performancemainframetiming">PerformanceMainFrameTiming</a> interface until one of the following occurs:
+              The callback onframetimingbufferfull is triggered when the buffer used to store the list of <a href="#performancerendertiming">PerformanceRenderTiming</a> is full. The callback can be used to package existing <a href="#performancerendertiming">PerformanceRenderTiming</a> resources and clear the buffered <a href="#performancerendertiming">PerformanceRenderTiming</a> list. While executing the <code>onframetimingbufferfull</code> callback, <a href="#performancerendertiming">PerformanceRenderTiming</a> will continue to be collected beyond the maximum limit of the resources allowed in the <a href="#performancerendertiming">PerformanceRenderTiming</a> interface until one of the following occurs:
               <ol>
                 <li>
-                  <a href="#widl-Performance-clearFrameTimings-void"><code>clearFrameTimings</code></a> is called - The <a href="http://www.w3.org/TR/performance-timeline/#performanceentrylist">PerformanceEntryList</a> will begin with the n+1th item if it exists and the first n elements are released, where n is the maximum number of resources allowed in the <a href="#performancemainframetiming">PerformanceMainFrameTiming</a> interface. If the n+1th item does not exist, the buffer is cleared. The max length of the <a href="http://www.w3.org/TR/performance-timeline/#performanceentrylist">PerformanceEntryList</a> does not change unless otherwise specified by <a href="#dom-performance-setframetimingbuffersize"><code>setFrameTimingBufferSize</code></a>.</li>
+                  <a href="#widl-Performance-clearFrameTimings-void"><code>clearFrameTimings</code></a> is called - The <a href="http://www.w3.org/TR/performance-timeline/#performanceentrylist">PerformanceEntryList</a> will begin with the n+1th item if it exists and the first n elements are released, where n is the maximum number of resources allowed in the <a href="#performancerendertiming">PerformanceRenderTiming</a> interface. If the n+1th item does not exist, the buffer is cleared. The max length of the <a href="http://www.w3.org/TR/performance-timeline/#performanceentrylist">PerformanceEntryList</a> does not change unless otherwise specified by <a href="#dom-performance-setframetimingbuffersize"><code>setFrameTimingBufferSize</code></a>.</li>
                 <li>
                   <a href="#widl-Performance-setFrameTimingBufferSize-void-unsigned-long-maxSize"><code>setFrameTimingBufferSize</code></a> is called - The <a href="http://www.w3.org/TR/performance-timeline/#performanceentrylist">PerformanceEntryList</a> will extend and / or truncate to the buffer size specified.</li>
                 <li>
@@ -161,15 +161,15 @@
           </dl>
         </p>
       </section>
-      <section id='performancemainframetiming'>
-        <h2>The <code>PerformanceMainFrameTiming</code> Interface</h2>
+      <section id='performancerendertiming'>
+        <h2>The <code>PerformanceRenderTiming</code> Interface</h2>
         <p>
-          The <a href="#performancemainframetiming">PerformanceMainFrameTiming</a> interface participates in the <a href="http://www.w3.org/TR/performance-timeline/#sec-performance-timeline">Performance Timeline</a> and extends the following attributes of the <a href="http://www.w3.org/TR/performance-timeline/#performanceentry">PerformanceEntry</a> interface:
+          The <a href="#performancerendertiming">PerformanceRenderTiming</a> interface participates in the <a href="http://www.w3.org/TR/performance-timeline/#sec-performance-timeline">Performance Timeline</a> and extends the following attributes of the <a href="http://www.w3.org/TR/performance-timeline/#performanceentry">PerformanceEntry</a> interface:
           <div class="parameters">
             <p>
               The <code>name</code> attribute will return the name of the requesting document.</p>
             <p>
-              The <code>entryType</code> attribute will return the <a href="http://www.w3.org/TR/WebIDL/#idl-DOMString"><code>DOMString</code></a> <code>mainframe</code>.</p>
+              The <code>entryType</code> attribute will return the <a href="http://www.w3.org/TR/WebIDL/#idl-DOMString"><code>DOMString</code></a> <code>render</code>.</p>
             <p>
               The <code>startTime</code> attribute will return a <a href="http://www.w3.org/TR/hr-time/#domhighrestimestamp"><code>DOMHighResTimeStamp</code></a> with current frame's beginning time value (identical to the frame beginning time used for <a href="https://dvcs.w3.org/hg/webperf/raw-file/tip/specs/RequestAnimationFrame/Overview.html#processingmodel">requestAnimationFrame</a> callbacks) [[HR-Time]].</p>
             <p>
@@ -177,10 +177,10 @@
           </div>
         </p>
         <p>
-          <dl title='interface PerformanceMainFrameTiming : <a href="http://www.w3.org/TR/performance-timeline/#performanceentry">PerformanceEntry</a>' class='idl'>
+          <dl title='interface PerformanceRenderTiming : <a href="http://www.w3.org/TR/performance-timeline/#performanceentry">PerformanceEntry</a>' class='idl'>
             <dt>readonly attribute unsigned long sourceFrameNumber</dt>
             <dd>
-              This attribute must return the source frame number for the event. This is used to correlate <code>PerformanceMainFrameTiming</code> and <code>PerformanceCompositeTiming</code> events to measure time-to-frame delays.
+              This attribute must return the source frame number for the event. This is used to correlate <code>PerformanceRenderTiming</code> and <code>PerformanceCompositeTiming</code> events to measure time-to-frame delays.
             </dd>
             <dt>readonly attribute double cpuTime</dt>
             <dd>
@@ -208,7 +208,7 @@
           <dl title='interface PerformanceCompositeTiming : <a href="http://www.w3.org/TR/performance-timeline/#performanceentry">PerformanceEntry</a>' class='idl'>
             <dt>readonly attribute unsigned long sourceFrameNumber</dt>
             <dd>
-              This attribute must return the last known source frame number for the event. This is used to correlate <code>PerformanceMainFrameTiming</code> and <code>PerformanceCompositeTiming</code> events to measure time-to-frame delays.
+              This attribute must return the last known source frame number for the event. This is used to correlate <code>PerformanceRenderTiming</code> and <code>PerformanceCompositeTiming</code> events to measure time-to-frame delays.
             </dd>
         </dl>
         </p>
@@ -226,7 +226,7 @@
         The interfaces defined in this specification expose potentially sensitive timing information on specific JavaScript activity of a page. However, unlike other interfaces defined in the Performance Timeline, the interfaces defined in this specification do not have any restrictions on sharing timing information through script. This is because the web platform has been designed with the invariant that any script included on a page has the same access as any other script included on that page regardless of the origin of the script.
       </p>
     </section>
-    
+
     <section class='appendix'>
       <h2>Acknowledgements</h2>
       <p>

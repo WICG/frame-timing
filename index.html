@@ -50,7 +50,7 @@
           // This is important for Rec-track documents, do not copy a patent URI from a random
           // document unless you know what you're doing. If in doubt ask your friendly neighbourhood
           // Team Contact.
-          wgPatentURI:  "",
+          wgPatentURI:  "http://www.w3.org/2004/01/pp-impl/45211/status",
           // !!!! IMPORTANT !!!! MAKE THE ABOVE BLINK IN YOUR HEAD
       };
     </script>
@@ -94,7 +94,7 @@
         All diagrams, examples, and notes in this specification are non-normative, as are all sections explicitly marked non-normative. Everything else in this specification is normative.
       </p>
       <p>
-        The key words "MUST", "MUST NOT", "REQUIRED", "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in the normative parts of this document are to be interpreted as described in [[RFC2119]].
+        The key words "MUST", "MUST NOT", "REQUIRED", "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in the normative parts of this document are to be interpreted as described in [[!RFC2119]].
       </p>
       <p>
         Requirements phrased in the imperative as part of algorithms (such as "strip any leading space characters" or "return false and abort these steps") are to be interpreted with the meaning of the key word ("must", "should", "may", etc) used in introducing the algorithm.
@@ -106,7 +106,7 @@
         Conformance requirements phrased as algorithms or specific steps may be implemented in any manner, so long as the end result is equivalent. (In particular, the algorithms defined in this specification are intended to be easy to follow, and not intended to be performant.)
       </p>
       <p>
-        The IDL fragments in this specification must be interpreted as required for conforming IDL fragments, as described in the Web IDL specification. [[WebIDL]]
+        The IDL fragments in this specification must be interpreted as required for conforming IDL fragments, as described in the Web IDL specification. [[!WebIDL]]
       </p>
     </section>
     <section>
@@ -171,7 +171,7 @@
             <p>
               The <code>entryType</code> attribute will return the <a href="http://www.w3.org/TR/WebIDL/#idl-DOMString"><code>DOMString</code></a> <code>render</code>.</p>
             <p>
-              The <code>startTime</code> attribute will return a <a href="http://www.w3.org/TR/hr-time/#domhighrestimestamp"><code>DOMHighResTimeStamp</code></a> with current frame's beginning time value (identical to the frame beginning time used for <a href="https://dvcs.w3.org/hg/webperf/raw-file/tip/specs/RequestAnimationFrame/Overview.html#processingmodel">requestAnimationFrame</a> callbacks) [[HR-Time]].</p>
+              The <code>startTime</code> attribute will return a <a href="http://www.w3.org/TR/hr-time/#domhighrestimestamp"><code>DOMHighResTimeStamp</code></a> with current frame's beginning time value (identical to the frame beginning time used for <a href="https://dvcs.w3.org/hg/webperf/raw-file/tip/specs/RequestAnimationFrame/Overview.html#processingmodel">requestAnimationFrame</a> callbacks) [[!HR-Time]].</p>
             <p>
               The <code>duration</code> attribute will return a <a href="http://www.w3.org/TR/hr-time/#domhighrestimestamp"><code>DOMHighResTimeStamp</code></a> with the duration of the frame, computed by subtracting the <code>startTime</code> of the next frame from <code>startTime</code> of the current frame.</p>
           </div>

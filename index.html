@@ -184,7 +184,7 @@
             </dd>
             <dt>readonly attribute DOMHighResTimeStamp cpuTime</dt>
             <dd>
-              This attribute must return a <a href="#bib-HR-Time">[High Resolution Time]</a> duration giving the total CPU time used to process this frame.
+              This attribute must return a <a href="#bib-HR-Time">[High Resolution Time]</a> duration giving the total CPU time used to process this frame. The user agent SHOULD include the time spent on JavaScript execution, accessing and modifying the DOM and CSSOM, and other relevant processing operations required to render the frame (e.g. layout, style recalculations, painting, and so on). The user agent SHOULD NOT include time spent on descheduled events (e.g. processing another frame, I/O time, and so on).
             </dd>
         </dl>
         </p>

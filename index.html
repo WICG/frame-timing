@@ -167,13 +167,13 @@
           The <a href="#performancerendertiming">PerformanceRenderTiming</a> interface participates in the <a href="http://www.w3.org/TR/performance-timeline/#sec-performance-timeline">Performance Timeline</a> and extends the following attributes of the <a href="http://www.w3.org/TR/performance-timeline/#performanceentry">PerformanceEntry</a> interface:
           <div class="parameters">
             <p>
-              The <code>name</code> attribute will return the name of the requesting document.</p>
+              The <code>name</code> attribute must return the name of the requesting document.</p>
             <p>
-              The <code>entryType</code> attribute will return the <a href="http://www.w3.org/TR/WebIDL/#idl-DOMString"><code>DOMString</code></a> <code>render</code>.</p>
+              The <code>entryType</code> attribute must return the <a href="http://www.w3.org/TR/WebIDL/#idl-DOMString"><code>DOMString</code></a> <code>render</code>.</p>
             <p>
-              The <code>startTime</code> attribute will return a <a href="http://www.w3.org/TR/hr-time/#domhighrestimestamp"><code>DOMHighResTimeStamp</code></a> with current frame's beginning time value (identical to the frame beginning time used for <a href="https://dvcs.w3.org/hg/webperf/raw-file/tip/specs/RequestAnimationFrame/Overview.html#processingmodel">requestAnimationFrame</a> callbacks) [[!HR-Time]].</p>
+              The <code>startTime</code> attribute must return a <a href="http://www.w3.org/TR/hr-time/#domhighrestimestamp"><code>DOMHighResTimeStamp</code></a> with current frame's beginning time value (identical to the frame beginning time used for <a href="https://dvcs.w3.org/hg/webperf/raw-file/tip/specs/RequestAnimationFrame/Overview.html#processingmodel">requestAnimationFrame</a> callbacks) [[!HR-Time]].</p>
             <p>
-              The <code>duration</code> attribute will return a <a href="http://www.w3.org/TR/hr-time/#domhighrestimestamp"><code>DOMHighResTimeStamp</code></a> with the duration of the frame, computed by subtracting the <code>startTime</code> of the current frame from the next v-sync boundary.</p>
+              The <code>duration</code> attribute must return a <a href="http://www.w3.org/TR/hr-time/#domhighrestimestamp"><code>DOMHighResTimeStamp</code></a> with the duration of the frame, computed by subtracting the <code>startTime</code> of the current frame from the next v-sync boundary.</p>
           </div>
         </p>
         <p>
@@ -195,13 +195,13 @@
           The <a href="#performancecompositetiming">PerformanceCompositeTiming</a> interface participates in the <a href="http://www.w3.org/TR/performance-timeline/#sec-performance-timeline">Performance Timeline</a> and extends the following attributes of the <a href="http://www.w3.org/TR/performance-timeline/#performanceentry">PerformanceEntry</a> interface:
           <div class="parameters">
             <p>
-              The <code>name</code> attribute will return the name of the requesting document.</p>
+              The <code>name</code> attribute must return the name of the requesting document.</p>
             <p>
-              The <code>entryType</code> attribute will return the <a href="http://www.w3.org/TR/WebIDL/#idl-DOMString"><code>DOMString</code></a> <code>composite</code>.</p>
+              The <code>entryType</code> attribute must return the <a href="http://www.w3.org/TR/WebIDL/#idl-DOMString"><code>DOMString</code></a> <code>composite</code>.</p>
             <p>
-              The <code>startTime</code> attribute will return a <a href="http://www.w3.org/TR/hr-time/#domhighrestimestamp"><code>DOMHighResTimeStamp</code></a> with the event's time value [[HR-Time]].</p>
+              The <code>startTime</code> attribute must return a <a href="http://www.w3.org/TR/hr-time/#domhighrestimestamp"><code>DOMHighResTimeStamp</code></a> with the event's time value [[HR-Time]].</p>
             <p>
-              The <code>duration</code> attribute will return a <a href="http://www.w3.org/TR/hr-time/#domhighrestimestamp"><code>DOMHighResTimeStamp</code></a> of value 0.</p>
+              The <code>duration</code> attribute must return a <a href="http://www.w3.org/TR/hr-time/#domhighrestimestamp"><code>DOMHighResTimeStamp</code></a> of value 0.</p>
           </div>
         </p>
         <p>

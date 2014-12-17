@@ -171,9 +171,9 @@
             <p>
               The <code>entryType</code> attribute must return the <a href="http://www.w3.org/TR/WebIDL/#idl-DOMString"><code>DOMString</code></a> <code>render</code>.</p>
             <p>
-              The <code>startTime</code> attribute must return a <a href="http://www.w3.org/TR/hr-time/#domhighrestimestamp"><code>DOMHighResTimeStamp</code></a> with current frame's beginning time value (identical to the frame beginning time used for <a href="https://dvcs.w3.org/hg/webperf/raw-file/tip/specs/RequestAnimationFrame/Overview.html#processingmodel">requestAnimationFrame</a> callbacks) [[!HR-Time]].</p>
+              The <code>startTime</code> attribute must return a <a href="http://www.w3.org/TR/hr-time/#domhighrestimestamp"><code>DOMHighResTimeStamp</code></a> with current frame's beginning time value, which is the time that the <code>requestAnimationFrame</code> callback (see [[!Animation-Timing]]) would have fired for the frame. [[!HR-Time]].</p>
             <p>
-              The <code>duration</code> attribute must return a <a href="http://www.w3.org/TR/hr-time/#domhighrestimestamp"><code>DOMHighResTimeStamp</code></a> with the duration of the frame, computed by subtracting the <code>startTime</code> of the current frame from the next v-sync boundary.</p>
+              The <code>duration</code> attribute must return a <a href="http://www.w3.org/TR/hr-time/#domhighrestimestamp"><code>DOMHighResTimeStamp</code></a> with the difference between the end of the frame and the <code>startTime</code> of the frame. The end of the frame is defined as what the beginning time of the next frame's <code>requestAnimationFrame</code> callback (see [[!Animation-Timing]]) would have been, had one been scheduled in the current frame.</p>
           </div>
         </p>
         <p>

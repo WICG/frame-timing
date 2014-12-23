@@ -148,15 +148,9 @@
             </dd>
             <dt>attribute EventHandler onframetimingbufferfull</dt>
             <dd>
-              The callback onframetimingbufferfull is triggered when the buffer used to store the list of <a href="#performancerendertiming">PerformanceRenderTiming</a> is full. The callback can be used to package existing <a href="#performancerendertiming">PerformanceRenderTiming</a> resources and clear the buffered <a href="#performancerendertiming">PerformanceRenderTiming</a> list. While executing the <code>onframetimingbufferfull</code> callback, <a href="#performancerendertiming">PerformanceRenderTiming</a> will continue to be collected beyond the maximum limit of the resources allowed in the <a href="#performancerendertiming">PerformanceRenderTiming</a> interface until one of the following occurs:
-              <ol>
-                <li>
-                  <a href="#widl-Performance-clearFrameTimings-void"><code>clearFrameTimings</code></a> is called - The <a href="http://www.w3.org/TR/performance-timeline/#performanceentrylist">PerformanceEntryList</a> will begin with the n+1th item if it exists and the first n elements are released, where n is the maximum number of resources allowed in the <a href="#performancerendertiming">PerformanceRenderTiming</a> interface. If the n+1th item does not exist, the buffer is cleared. The max length of the <a href="http://www.w3.org/TR/performance-timeline/#performanceentrylist">PerformanceEntryList</a> does not change unless otherwise specified by <a href="#dom-performance-setframetimingbuffersize"><code>setFrameTimingBufferSize</code></a>.</li>
-                <li>
-                  <a href="#widl-Performance-setFrameTimingBufferSize-void-unsigned-long-maxSize"><code>setFrameTimingBufferSize</code></a> is called - The <a href="http://www.w3.org/TR/performance-timeline/#performanceentrylist">PerformanceEntryList</a> will extend and / or truncate to the buffer size specified.</li>
-                <li>
-                  Neither <a href="#widl-Performance-clearFrameTimings-void"><code>clearFrameTimings</code></a> or <a href="#widl-Performance-setFrameTimingBufferSize-void-unsigned-long-maxSize"><code>setFrameTimingBufferSize</code></a> is called during the execution of the <a href="#widl-Performance-onframetimingbufferfull"><code>onframetimingbufferfull</code></a> callback - no updates are made to the <a href="http://www.w3.org/TR/performance-timeline/#performanceentrylist">PerformanceEntryList</a>.</li>
-              </ol>
+              The event handler for the <code>frametimingbufferfull</code> event. Immediately after the buffer used to store the list of <a href="#performancerendertiming">PerformanceRenderTiming</a> and <a href="#performancecompositetiming">PerformanceCompositeTiming</a> 
+    resources becomes full, the User Agent must fire a simple event named <code>frametimingbufferfull</code> that bubbles, isn't cancelable, has no default action, at the
+    <a href="http://www.w3.org/TR/navigation-timing-2/#performance">Performance</a> object.
             </dd>
           </dl>
         </p>

@@ -146,7 +146,7 @@
               </dl>
               The <code>setFrameTimingBufferSize</code> method, when invoked, must set the maximum number of <a href="#performancerendertiming">PerformanceRenderTiming</a> resources that may be stored in the buffer to the value of the <code>maxSize</code> parameter.
             </dd>
-            <dt>attribute Function onframetimingbufferfull</dt>
+            <dt>attribute EventHandler onframetimingbufferfull</dt>
             <dd>
               The callback onframetimingbufferfull is triggered when the buffer used to store the list of <a href="#performancerendertiming">PerformanceRenderTiming</a> is full. The callback can be used to package existing <a href="#performancerendertiming">PerformanceRenderTiming</a> resources and clear the buffered <a href="#performancerendertiming">PerformanceRenderTiming</a> list. While executing the <code>onframetimingbufferfull</code> callback, <a href="#performancerendertiming">PerformanceRenderTiming</a> will continue to be collected beyond the maximum limit of the resources allowed in the <a href="#performancerendertiming">PerformanceRenderTiming</a> interface until one of the following occurs:
               <ol>

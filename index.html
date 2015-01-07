@@ -168,10 +168,6 @@
             <dd>
               This attribute MUST return the source frame number for the event. This is used to correlate <code>PerformanceRenderTiming</code> and <code>PerformanceCompositeTiming</code> events to measure time-to-frame delays.
             </dd>
-            <dt>readonly attribute DOMHighResTimeStamp cost</dt>
-            <dd>
-              This attribute MUST return a <a href="http://www.w3.org/TR/hr-time/#domhighrestimestamp"><code>DOMHighResTimeStamp</code></a> duration giving the actual wall-clock time used to process this frame EXCLUDING any idle time. The user agent SHOULD include the time spent on JavaScript execution, accessing and modifying the DOM and CSSOM, and other relevant processing operations required to render the frame (e.g. layout, style recalculations, painting, and so on).
-            </dd>
         </dl>
         </p>
       </section>

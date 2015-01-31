@@ -10,6 +10,7 @@
           specStatus:           "ED",
           shortName:            "frame-timing",
           edDraftURI:           "https://w3c.github.io/frame-timing/",
+          previousPublishedDate: "2015-01-20",
           editors:  [
               {
                   name:       "Michael Blain"
@@ -168,6 +169,7 @@
             <dd>
               This attribute MUST return the source frame number for the event. This is used to correlate <code>PerformanceRenderTiming</code> and <code>PerformanceCompositeTiming</code> events to measure time-to-frame delays.
             </dd>
+            <dt>serializer = {inherit, sourceFrameNumber}</dt>
         </dl>
         </p>
       </section>
@@ -199,6 +201,7 @@
             <dd>
               This attribute MUST return the last known source frame number for the event. This is used to correlate <code>PerformanceRenderTiming</code> and <code>PerformanceCompositeTiming</code> events to measure time-to-frame delays.
             </dd>
+            <dt>serializer = {inherit, sourceFrameNumber}</dt>
         </dl>
         </p>
       </section>

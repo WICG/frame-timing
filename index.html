@@ -64,7 +64,7 @@
     <section class='informative'>
       <h2>Introduction</h2>
       <p>
-        Web developers need the ability to assess and understand the performance characteristics of their applications. While JavaScript [[ECMA-262]] provides a mechanism to approximate application Frames per Second (FPS) and Time to Frame (TTF) (by calling a nearly empty <code>requestAnimationFrame</code> [[Animation-Timing]] in a loop), the precision of this method has a high variance. Some example situations where this returns misleading results are:
+        Web developers need the ability to assess and understand the performance characteristics of their applications. While JavaScript [[ECMA-262]] provides a mechanism to approximate application Frames per Second (<dfn>FPS</dfn>) and Time to Frame (<dfn>TTF</dfn>) (by calling a nearly empty <code>requestAnimationFrame</code> [[Animation-Timing]] in a loop), the precision of this method has a high variance. Some example situations where this returns misleading results are:
         <ul>
           <li>
             CSS Animations, which can be done off of the main thread and may not impact <code>requestAnimationFrame</code>
@@ -110,9 +110,14 @@
       </p>
       <section class='informative'>
         <h2>Introduction</h2>
-        <p>
-          The <a href="#performancerendertiming"><code>PerformanceRenderTiming</code></a> and <a href="#performancecompositetiming"><code>PerformanceCompositeTiming</code></a> interfaces, and extensions to the <a href="#extensions-performance-interface"><code>Performance</code></a> interface give web developers access to browser smoothness information so they can better measure the performance characteristics of their applications.
-        </p>
+        <p>The <a>PerformanceRenderTiming</a> and <a>PerformanceCompositeTiming</a> interfaces, and extensions to the <a href="#extensions-performance-interface">Performance interface</a>, enable web developers to measure the performance of their applications by giving them access to frame performance data to facilitate smoothness (i.e. <a>FPS</a> and <a>TTF</a>) measurements:</p>
+
+        <ul>
+          <li><a>PerformanceRenderTiming</a> captures the work performed by the renderer to process the frame: DOM modification, JavaScript execution, CSS calculation, and similar activities.</li>
+          <li><a>PerformanceCompositeTiming</a> captures events performed by the compositor to place rendered content onto the screen.</li>
+        </ul>
+
+        <p>The relationship between <a>PerformanceRenderTiming</a> and <a>PerformanceCompositeTiming</a> events will vary based on the workload, and architecture and configuration of the user agent. For example, the user agent may report many <a>PerformanceCompositeTiming</a> events corresponding to a single <a>PerformanceRenderTiming</a> event due to a CSS animation, composite thread scrolling, or similar activities. Other workloads may result in 1:1 mapping of <a>PerformanceRenderTiming</a> and <a>PerformanceCompositeTiming</a> events, and the exact relationship is also subject to user agent architecture and configuration.</p>
       </section>
       <section id='extensions-performance-interface'>
         <h2>Extensions to the <code>Performance</code> Interface</h2>

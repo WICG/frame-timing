@@ -141,7 +141,7 @@
             <dt>attribute EventHandler onframetimingbufferfull</dt>
             <dd>
               The event handler for the <code>frametimingbufferfull</code> event. Immediately after the buffer used to store the list of <a href="#performancerendertiming">PerformanceRenderTiming</a> and <a href="#performancecompositetiming">PerformanceCompositeTiming</a>
-    resources becomes full, the User Agent MUST fire a simple event named <code>frametimingbufferfull</code> that bubbles, isn't cancelable, has no default action, at the
+    resources becomes full, the User Agent MUST <a href='http://www.w3.org/TR/dom/#concept-event-fire'>fire a simple event</a> named <code>frametimingbufferfull</code> that bubbles, isn't cancelable, has no default action, at the
     <a href="http://www.w3.org/TR/navigation-timing-2/#performance">Performance</a> object [[!Navigation-Timing-2]].
             </dd>
           </dl>

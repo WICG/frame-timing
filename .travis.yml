@@ -1,0 +1,14 @@
+language: node_js
+branches:
+  only:
+  - gh-pages
+env:
+  global:
+  - URL="http://w3c.github.io/frame-timing/W3CTRMANIFEST"
+  - DECISION="http://www.w3.org/2015/06/24-webperf-minutes.html#item01"
+  - secure: "@@TODO@@"
+script:
+- echo "ok"
+after_success:
+- curl "https://labs.w3.org/echidna/api/request" --data "url=$URL" --data "decision=$DECISION"
+  --data "token=$TOKEN"

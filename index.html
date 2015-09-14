@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Frame Timing</title>
-    <meta charset='utf-8'>
-    <script src='//www.w3.org/Tools/respec/respec-w3c-common'
-            async class='remove'></script>
-    <script class='remove'>
+<head>
+  <title>Frame Timing</title>
+  <meta charset='utf-8'>
+  <script src='//www.w3.org/Tools/respec/respec-w3c-common' async class=
+  'remove'>
+  </script>
+  <script class='remove'>
       var respecConfig = {
           specStatus:           "ED",
           shortName:            "frame-timing",
@@ -47,188 +48,270 @@
           }],
           wgPatentURI:  "http://www.w3.org/2004/01/pp-impl/45211/status"
       };
-    </script>
-  </head>
-  <body>
-    <section id='abstract'>
-      <p>
-        This specification defines an interface to help web developers measure the performance of their applications by giving them access to frame performance data to facilitate smoothness (i.e. Frames per Second and Time to Frame) measurements.
-      </p>
-    </section>
-
-    <section id='sotd'>
-      <p>
-        This is a <strong>work in progress</strong> and may change without any notices.
-      </p>
-    </section>
-
+  </script>
+</head>
+<body>
+  <section id='abstract'>
+    <p>This specification defines an interface to help web developers measure
+    the performance of their applications by giving them access to frame
+    performance data to facilitate smoothness (i.e. Frames per Second and Time
+    to Frame) measurements.</p>
+  </section>
+  <section id='sotd'>
+    <p>This is a <strong>work in progress</strong> and may change without any
+    notices.</p>
+  </section>
+  <section class='informative'>
+    <h2>Introduction</h2>
+    <p>Web developers need the ability to assess and understand the performance
+    characteristics of their applications. While JavaScript [[ECMA-262]]
+    provides a mechanism to approximate application Frames per Second
+    (<dfn>FPS</dfn>) and Time to Frame (<dfn>TTF</dfn>) (by calling a nearly
+    empty <code>requestAnimationFrame</code> [[Animation-Timing]] in a loop),
+    the precision of this method has a high variance. Some example situations
+    where this returns misleading results are:</p>
+    <ul>
+      <li>CSS Animations, which can be done off of the main thread and may not
+      impact <code>requestAnimationFrame</code></li>
+      <li>Scrolling, which can also be handled mostly off of the main thread,
+      and may not impact <code>requestAnimationFrame</code></li>
+      <li>Slow page loading (such as extensive DOM manipulation), which may
+      consume a lot of time on the rendering thread and allow the main thread
+      to fire a <code>requestAnimationFrame</code> event even though the new
+      content has not yet been displayed to the user.</li>
+    </ul>
+    <p>This document defines the <a href=
+    "#performancerendertiming"><code>PerformanceRenderTiming</code></a> and
+    <a href=
+    "#performancecompositetiming"><code>PerformanceCompositeTiming</code></a>
+    interfaces, and extensions to the <a href=
+    "#extensions-performance-interface"><code>Performance</code></a> interface,
+    which expose frame performance data to be used for smoothness
+    measurements.</p>
+  </section>
+  <section id="conformance">
+    <p>Requirements phrased in the imperative as part of algorithms (such as
+    "strip any leading space characters" or "return false and abort these
+    steps") are to be interpreted with the meaning of the key word ("MUST",
+    "SHOULD", "MAY", etc) used in introducing the algorithm.</p>
+    <p>Some conformance requirements are phrased as requirements on attributes,
+    methods or objects. Such requirements are to be interpreted as requirements
+    on user agents.</p>
+    <p>Conformance requirements phrased as algorithms or specific steps may be
+    implemented in any manner, so long as the end result is equivalent. (In
+    particular, the algorithms defined in this specification are intended to be
+    easy to follow, and not intended to be performant.)</p>
+    <p>The IDL fragments in this specification MUST be interpreted as required
+    for conforming IDL fragments, as described in the Web IDL specification.
+    [[!WebIDL]]</p>
+  </section>
+  <section>
+    <h2>Terminology</h2>
+    <p>The construction "a <code>Foo</code> object", where <code>Foo</code> is
+    actually an interface, is sometimes used instead of the more accurate "an
+    object implementing the interface Foo".</p>
+    <p>The term "JavaScript" is used to refer to ECMAScript [[ECMA-262]],
+    rather than the official term ECMAScript, since the term JavaScript is more
+    widely known.</p>
+  </section>
+  <section>
+    <h2>Frame Timing</h2>
     <section class='informative'>
       <h2>Introduction</h2>
-      <p>
-        Web developers need the ability to assess and understand the performance characteristics of their applications. While JavaScript [[ECMA-262]] provides a mechanism to approximate application Frames per Second (<dfn>FPS</dfn>) and Time to Frame (<dfn>TTF</dfn>) (by calling a nearly empty <code>requestAnimationFrame</code> [[Animation-Timing]] in a loop), the precision of this method has a high variance. Some example situations where this returns misleading results are:
-        <ul>
-          <li>
-            CSS Animations, which can be done off of the main thread and may not impact <code>requestAnimationFrame</code>
-          </li>
-          <li>
-            Scrolling, which can also be handled mostly off of the main thread, and may not impact <code>requestAnimationFrame</code>
-          </li>
-          <li>
-            Slow page loading (such as extensive DOM manipulation), which may consume a lot of time on the rendering thread and allow the main thread to fire a <code>requestAnimationFrame</code> event even though the new content has not yet been displayed to the user.
-          </li>
-        </ul>
-      </p>
-      <p>
-        This document defines the <a href="#performancerendertiming"><code>PerformanceRenderTiming</code></a> and <a href="#performancecompositetiming"><code>PerformanceCompositeTiming</code></a> interfaces, and extensions to the <a href="#extensions-performance-interface"><code>Performance</code></a> interface, which expose frame performance data to be used for smoothness measurements.
-      </p>
+      <p>The <a>PerformanceRenderTiming</a> and
+      <a>PerformanceCompositeTiming</a> interfaces, and extensions to the
+      <a href="#extensions-performance-interface">Performance interface</a>,
+      enable web developers to measure the performance of their applications by
+      giving them access to frame performance data to facilitate smoothness
+      (i.e. <a>FPS</a> and <a>TTF</a>) measurements:</p>
+      <ul>
+        <li>
+          <a>PerformanceRenderTiming</a> captures the work performed by the
+          renderer to process the frame: DOM modification, JavaScript
+          execution, CSS calculation, and similar activities.
+        </li>
+        <li>
+          <a>PerformanceCompositeTiming</a> captures events performed by the
+          compositor to place rendered content onto the screen.
+        </li>
+      </ul>
+      <p>The relationship between <a>PerformanceRenderTiming</a> and
+      <a>PerformanceCompositeTiming</a> events will vary based on the workload,
+      and architecture and configuration of the user agent. For example, the
+      user agent may report many <a>PerformanceCompositeTiming</a> events
+      corresponding to a single <a>PerformanceRenderTiming</a> event due to a
+      CSS animation, composite thread scrolling, or similar activities. Other
+      workloads may result in 1:1 mapping of <a>PerformanceRenderTiming</a> and
+      <a>PerformanceCompositeTiming</a> events, and the exact relationship is
+      also subject to user agent architecture and configuration.</p>
     </section>
-    <section  id="conformance">
-      <p>
-        Requirements phrased in the imperative as part of algorithms (such as "strip any leading space characters" or "return false and abort these steps") are to be interpreted with the meaning of the key word ("MUST", "SHOULD", "MAY", etc) used in introducing the algorithm.
-      </p>
-      <p>
-        Some conformance requirements are phrased as requirements on attributes, methods or objects. Such requirements are to be interpreted as requirements on user agents.
-      </p>
-      <p>
-        Conformance requirements phrased as algorithms or specific steps may be implemented in any manner, so long as the end result is equivalent. (In particular, the algorithms defined in this specification are intended to be easy to follow, and not intended to be performant.)
-      </p>
-      <p>
-        The IDL fragments in this specification MUST be interpreted as required for conforming IDL fragments, as described in the Web IDL specification. [[!WebIDL]]
-      </p>
+    <section id='extensions-performance-interface'>
+      <h2>Extensions to the <code>Performance</code> Interface</h2>
+      <dl title='partial interface Performance' class="idl">
+        <dt>void clearFrameTimings()</dt>
+        <dd>
+          The method <code>clearFrameTimings</code> clears the buffer used to
+          store the current list of <a href=
+          "#performancerendertiming">PerformanceRenderTiming</a> resources.
+        </dd>
+        <dt>void setFrameTimingBufferSize()</dt>
+        <dd>
+          <dl class='parameters'>
+            <dt>unsigned long maxSize</dt>
+            <dd>
+              The maxSize parameter sets the maximum number of <a href=
+              "#performancerendertiming">PerformanceRenderTiming</a> resources
+              that will be stored in the buffer.
+            </dd>
+          </dl>The <code>setFrameTimingBufferSize</code> method, when invoked,
+          MUST set the maximum number of <a href=
+          "#performancerendertiming">PerformanceRenderTiming</a> resources that
+          may be stored in the buffer to the value of the <code>maxSize</code>
+          parameter.
+        </dd>
+        <dt>attribute EventHandler onframetimingbufferfull</dt>
+        <dd>
+          The event handler for the <code>frametimingbufferfull</code> event.
+          Immediately after the buffer used to store the list of <a href=
+          "#performancerendertiming">PerformanceRenderTiming</a> and <a href=
+          "#performancecompositetiming">PerformanceCompositeTiming</a>
+          resources becomes full, the User Agent MUST <a href=
+          'http://www.w3.org/TR/dom/#concept-event-fire'>fire a simple
+          event</a> named <code>frametimingbufferfull</code> that bubbles,
+          isn't cancelable, has no default action, at the <a href=
+          "http://www.w3.org/TR/navigation-timing-2/#performance">Performance</a>
+          object [[!Navigation-Timing-2]].
+        </dd>
+      </dl>
     </section>
-    <section>
-      <h2>Terminology</h2>
-      <p>
-        The construction &quot;a <code>Foo</code> object&quot;, where <code>Foo</code> is actually an interface, is sometimes used instead of the more accurate &quot;an object implementing the interface Foo&quot;.
-      </p>
-      <p>
-        The term "JavaScript" is used to refer to ECMAScript [[ECMA-262]], rather than the official term ECMAScript, since the term JavaScript is more widely known.
-      </p>
+    <section id='performancerendertiming'>
+      <h2>The <code>PerformanceRenderTiming</code> Interface</h2>
+      <p>The <a>PerformanceRenderTiming</a> interface participates in the
+      <a href=
+      "http://www.w3.org/TR/performance-timeline/#sec-performance-timeline">Performance
+      Timeline</a> and extends the following attributes of the <a href=
+      "http://www.w3.org/TR/performance-timeline/#performanceentry">PerformanceEntry</a>
+      interface [[!Performance-Timeline]]:</p>
+      <dl class='attributes'>
+        <dt id='widl-PerformanceRenderTiming-name'><code>name</code></dt>
+        <dd>
+          This attribute MUST return the <a href=
+          "http://www.w3.org/TR/html5/dom.html#the-document's-address">current
+          document's address</a>.
+        </dd>
+        <dt id='widl-PerformanceRenderTiming-entryType'>
+        <code>entryType</code></dt>
+        <dd>
+          This attribute MUST return the <a href=
+          "http://www.w3.org/TR/WebIDL/#idl-DOMString"><code>DOMString</code></a>
+          "<code>render</code>".
+        </dd>
+        <dt id='widl-PerformanceRenderTiming-startTime'>
+        <code>startTime</code></dt>
+        <dd>
+          This attribute MUST return a <a href=
+          "http://www.w3.org/TR/hr-time/#domhighrestimestamp"><code>DOMHighResTimeStamp</code></a>
+          with current frame's beginning time value, which is the time that the
+          <code>requestAnimationFrame</code> callback (see
+          [[!Animation-Timing]]) would have fired for the frame. [[!HR-Time]].
+        </dd>
+        <dt id='widl-PerformanceRenderTiming-duration'>
+        <code>duration</code></dt>
+        <dd>
+          This attribute MUST return a <a href=
+          "http://www.w3.org/TR/hr-time/#domhighrestimestamp"><code>DOMHighResTimeStamp</code></a>
+          with the difference between the end of the frame and the
+          <code>startTime</code> of the frame. The end of the frame is defined
+          as what the beginning time of the next frame's
+          <code>requestAnimationFrame</code> callback (see
+          [[!Animation-Timing]]) would have been, had one been scheduled in the
+          current frame. If a <code>requestAnimationFrame</code> is already
+          requested, its beginning time SHOULD be used.
+        </dd>
+      </dl>
+      <dl title=
+      'interface PerformanceRenderTiming : &lt;a href="http://www.w3.org/TR/performance-timeline/#performanceentry"&gt;PerformanceEntry&lt;/a&gt;'
+      class='idl'>
+        <dt>readonly attribute unsigned long sourceFrameNumber</dt>
+        <dd>This attribute MUST return the source frame number for the event.
+        This is used to correlate <code>PerformanceRenderTiming</code> and
+        <code>PerformanceCompositeTiming</code> events to measure time-to-frame
+        delays.</dd>
+        <dt>serializer = { inherit, attribute }</dt>
+      </dl>
     </section>
-    <section>
-      <h2>Frame Timing</h2>
-      <p>
-      </p>
-      <section class='informative'>
-        <h2>Introduction</h2>
-        <p>The <a>PerformanceRenderTiming</a> and <a>PerformanceCompositeTiming</a> interfaces, and extensions to the <a href="#extensions-performance-interface">Performance interface</a>, enable web developers to measure the performance of their applications by giving them access to frame performance data to facilitate smoothness (i.e. <a>FPS</a> and <a>TTF</a>) measurements:</p>
-
-        <ul>
-          <li><a>PerformanceRenderTiming</a> captures the work performed by the renderer to process the frame: DOM modification, JavaScript execution, CSS calculation, and similar activities.</li>
-          <li><a>PerformanceCompositeTiming</a> captures events performed by the compositor to place rendered content onto the screen.</li>
-        </ul>
-
-        <p>The relationship between <a>PerformanceRenderTiming</a> and <a>PerformanceCompositeTiming</a> events will vary based on the workload, and architecture and configuration of the user agent. For example, the user agent may report many <a>PerformanceCompositeTiming</a> events corresponding to a single <a>PerformanceRenderTiming</a> event due to a CSS animation, composite thread scrolling, or similar activities. Other workloads may result in 1:1 mapping of <a>PerformanceRenderTiming</a> and <a>PerformanceCompositeTiming</a> events, and the exact relationship is also subject to user agent architecture and configuration.</p>
-      </section>
-      <section id='extensions-performance-interface'>
-        <h2>Extensions to the <code>Performance</code> Interface</h2>
-        <p>
-          <dl title='partial interface Performance' class="idl">
-            <dt>void clearFrameTimings()</dt>
-            <dd>
-              The method <code>clearFrameTimings</code> clears the buffer used to store the current list of <a href="#performancerendertiming">PerformanceRenderTiming</a> resources.
-            </dd>
-            <dt>void setFrameTimingBufferSize()</dt>
-            <dd>
-              <dl class='parameters'>
-                <dt>unsigned long maxSize</dt>
-                <dd>
-                  The maxSize parameter sets the maximum number of <a href="#performancerendertiming">PerformanceRenderTiming</a> resources that will be stored in the buffer.
-                </dd>
-              </dl>
-              The <code>setFrameTimingBufferSize</code> method, when invoked, MUST set the maximum number of <a href="#performancerendertiming">PerformanceRenderTiming</a> resources that may be stored in the buffer to the value of the <code>maxSize</code> parameter.
-            </dd>
-            <dt>attribute EventHandler onframetimingbufferfull</dt>
-            <dd>
-              The event handler for the <code>frametimingbufferfull</code> event. Immediately after the buffer used to store the list of <a href="#performancerendertiming">PerformanceRenderTiming</a> and <a href="#performancecompositetiming">PerformanceCompositeTiming</a>
-    resources becomes full, the User Agent MUST <a href='http://www.w3.org/TR/dom/#concept-event-fire'>fire a simple event</a> named <code>frametimingbufferfull</code> that bubbles, isn't cancelable, has no default action, at the
-    <a href="http://www.w3.org/TR/navigation-timing-2/#performance">Performance</a> object [[!Navigation-Timing-2]].
-            </dd>
-          </dl>
-        </p>
-      </section>
-      <section id='performancerendertiming'>
-        <h2>The <code>PerformanceRenderTiming</code> Interface</h2>
-        <p>
-          The <a>PerformanceRenderTiming</a> interface participates in the <a href="http://www.w3.org/TR/performance-timeline/#sec-performance-timeline">Performance Timeline</a> and extends the following attributes of the <a href="http://www.w3.org/TR/performance-timeline/#performanceentry">PerformanceEntry</a> interface [[!Performance-Timeline]]:
-        </p>
-          <dl class='attributes'>
-            <dt id='widl-PerformanceRenderTiming-name'><code>name</code></dt>
-            <dd>
-              This attribute MUST return the <a href="http://www.w3.org/TR/html5/dom.html#the-document's-address">current document's address</a>.
-            </dd>
-            <dt id='widl-PerformanceRenderTiming-entryType'><code>entryType</code></dt>
-            <dd>
-              This attribute MUST return the <a href="http://www.w3.org/TR/WebIDL/#idl-DOMString"><code>DOMString</code></a> "<code>render</code>".
-            </dd>
-            <dt id='widl-PerformanceRenderTiming-startTime'><code>startTime</code></dt>
-            <dd>
-              This attribute MUST return a <a href="http://www.w3.org/TR/hr-time/#domhighrestimestamp"><code>DOMHighResTimeStamp</code></a> with current frame's beginning time value, which is the time that the <code>requestAnimationFrame</code> callback (see [[!Animation-Timing]]) would have fired for the frame. [[!HR-Time]].</p>
-            </dd>
-            <dt id='widl-PerformanceRenderTiming-duration'><code>duration</code></dt>
-            <dd>
-              This attribute MUST return a <a href="http://www.w3.org/TR/hr-time/#domhighrestimestamp"><code>DOMHighResTimeStamp</code></a> with the difference between the end of the frame and the <code>startTime</code> of the frame. The end of the frame is defined as what the beginning time of the next frame's <code>requestAnimationFrame</code> callback (see [[!Animation-Timing]]) would have been, had one been scheduled in the current frame. If a <code>requestAnimationFrame</code> is already requested, its beginning time SHOULD be used.
-            </dd>
-          </dl>
-          <dl title='interface PerformanceRenderTiming : <a href="http://www.w3.org/TR/performance-timeline/#performanceentry">PerformanceEntry</a>' class='idl'>
-            <dt>readonly attribute unsigned long sourceFrameNumber</dt>
-            <dd>
-              This attribute MUST return the source frame number for the event. This is used to correlate <code>PerformanceRenderTiming</code> and <code>PerformanceCompositeTiming</code> events to measure time-to-frame delays.
-            </dd>
-            <dt>serializer = { inherit, attribute }</dt>
-        </dl>
-        </p>
-      </section>
-      <section id='performancecompositetiming'>
-        <h2>The <code>PerformanceCompositeTiming</code> Interface</h2>
-        <p>
-          The <a>PerformanceCompositeTiming</a> interface participates in the <a href="http://www.w3.org/TR/performance-timeline/#sec-performance-timeline">Performance Timeline</a> and extends the following attributes of the <a href="http://www.w3.org/TR/performance-timeline/#performanceentry">PerformanceEntry</a> interface [[!Performance-Timeline]]:
-        </p>
-          <dl class='attributes'>
-            <dt id='widl-PerformanceCompositeTiming-name'><code>name</code></dt>
-            <dd>
-              This attribute MUST return the name of the requesting document.
-            </dd>
-            <dt id='widl-PerformanceCompositeTiming-entryType'><code>entryType</code></dt>
-            <dd>
-              This attribute MUST return the <a href="http://www.w3.org/TR/WebIDL/#idl-DOMString"><code>DOMString</code></a> "<code>composite</code>".
-            </dd>
-            <dt id='widl-PerformanceCompositeTiming-startTime'><code>startTime</code></dt>
-            <dd>
-              This attribute MUST return a <a href="http://www.w3.org/TR/hr-time/#domhighrestimestamp"><code>DOMHighResTimeStamp</code></a> with the event's time value [[!HR-Time]].
-            </dd>
-            <dt id='widl-PerformanceCompositeTiming-duration'><code>duration</code></dt>
-            <dd>
-              The <code>duration</code> attribute MUST return a <a href="http://www.w3.org/TR/hr-time/#domhighrestimestamp"><code>DOMHighResTimeStamp</code></a> of value 0.
-            </dd>
-          </dl>
-          <dl title='interface PerformanceCompositeTiming : <a href="http://www.w3.org/TR/performance-timeline/#performanceentry">PerformanceEntry</a>' class='idl'>
-            <dt>readonly attribute unsigned long sourceFrameNumber</dt>
-            <dd>
-              This attribute MUST return the last known source frame number for the event. This is used to correlate <code>PerformanceRenderTiming</code> and <code>PerformanceCompositeTiming</code> events to measure time-to-frame delays.
-            </dd>
-            <dt>serializer = { inherit, attribute }</dt>
-        </dl>
-      </section>
+    <section id='performancecompositetiming'>
+      <h2>The <code>PerformanceCompositeTiming</code> Interface</h2>
+      <p>The <a>PerformanceCompositeTiming</a> interface participates in the
+      <a href=
+      "http://www.w3.org/TR/performance-timeline/#sec-performance-timeline">Performance
+      Timeline</a> and extends the following attributes of the <a href=
+      "http://www.w3.org/TR/performance-timeline/#performanceentry">PerformanceEntry</a>
+      interface [[!Performance-Timeline]]:</p>
+      <dl class='attributes'>
+        <dt id='widl-PerformanceCompositeTiming-name'><code>name</code></dt>
+        <dd>This attribute MUST return the name of the requesting
+        document.</dd>
+        <dt id='widl-PerformanceCompositeTiming-entryType'>
+        <code>entryType</code></dt>
+        <dd>
+          This attribute MUST return the <a href=
+          "http://www.w3.org/TR/WebIDL/#idl-DOMString"><code>DOMString</code></a>
+          "<code>composite</code>".
+        </dd>
+        <dt id='widl-PerformanceCompositeTiming-startTime'>
+        <code>startTime</code></dt>
+        <dd>
+          This attribute MUST return a <a href=
+          "http://www.w3.org/TR/hr-time/#domhighrestimestamp"><code>DOMHighResTimeStamp</code></a>
+          with the event's time value [[!HR-Time]].
+        </dd>
+        <dt id='widl-PerformanceCompositeTiming-duration'>
+        <code>duration</code></dt>
+        <dd>
+          The <code>duration</code> attribute MUST return a <a href=
+          "http://www.w3.org/TR/hr-time/#domhighrestimestamp"><code>DOMHighResTimeStamp</code></a>
+          of value 0.
+        </dd>
+      </dl>
+      <dl title=
+      'interface PerformanceCompositeTiming : &lt;a href="http://www.w3.org/TR/performance-timeline/#performanceentry"&gt;PerformanceEntry&lt;/a&gt;'
+      class='idl'>
+        <dt>readonly attribute unsigned long sourceFrameNumber</dt>
+        <dd>This attribute MUST return the last known source frame number for
+        the event. This is used to correlate
+        <code>PerformanceRenderTiming</code> and
+        <code>PerformanceCompositeTiming</code> events to measure time-to-frame
+        delays.</dd>
+        <dt>serializer = { inherit, attribute }</dt>
+      </dl>
     </section>
-    <section>
-      <h2>Monotonic Clock</h2>
-      <p>
-        The time values stored within the interface MUST monotonically increase to ensure they are not affected by adjustments to the system clock. The difference between any two chronologically recorded time values MUST never be negative. The user agent MUST record the system clock at the beginning of the navigation and define subsequent time values in terms of a monotonic clock measuring time elapsed from the beginning of the navigation.
-      </p>
-    </section>
-    <section class='informative'>
-      <h2>Privacy and Security</h2>
-      <p>
-        The interfaces defined in this specification expose potentially sensitive timing information on specific JavaScript activity of a page. However, unlike other interfaces defined in the Performance Timeline, the interfaces defined in this specification do not have any restrictions on sharing timing information through script. This is because the web platform has been designed with the invariant that any script included on a page has the same access as any other script included on that page regardless of the origin of the script.
-      </p>
-    </section>
-
-    <section class='appendix'>
-      <h2>Acknowledgments</h2>
-      <p>
-        Thanks to Enne Walker, Rick Byers, Chris Harrelson, Timothy Robert Ansell, Vladimir Levin, and Nat Duca for their helpful comments and contributions to this work.
-      </p>
-    </section>
-  </body>
+  </section>
+  <section>
+    <h2>Monotonic Clock</h2>
+    <p>The time values stored within the interface MUST monotonically increase
+    to ensure they are not affected by adjustments to the system clock. The
+    difference between any two chronologically recorded time values MUST never
+    be negative. The user agent MUST record the system clock at the beginning
+    of the navigation and define subsequent time values in terms of a monotonic
+    clock measuring time elapsed from the beginning of the navigation.</p>
+  </section>
+  <section class='informative'>
+    <h2>Privacy and Security</h2>
+    <p>The interfaces defined in this specification expose potentially
+    sensitive timing information on specific JavaScript activity of a page.
+    However, unlike other interfaces defined in the Performance Timeline, the
+    interfaces defined in this specification do not have any restrictions on
+    sharing timing information through script. This is because the web platform
+    has been designed with the invariant that any script included on a page has
+    the same access as any other script included on that page regardless of the
+    origin of the script.</p>
+  </section>
+  <section class='appendix'>
+    <h2>Acknowledgments</h2>
+    <p>Thanks to Enne Walker, Rick Byers, Chris Harrelson, Timothy Robert
+    Ansell, Vladimir Levin, and Nat Duca for their helpful comments and
+    contributions to this work.</p>
+  </section>
+</body>
 </html>

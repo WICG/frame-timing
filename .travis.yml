@@ -7,7 +7,7 @@ env:
   global:
   - URL="http://w3c.github.io/frame-timing/W3CTRMANIFEST"
   - DECISION="http://www.w3.org/2015/06/24-webperf-minutes.html#item01"
-  - secure: "@@TODO@@"
+  - secure: "C3P7h1y3j+018tnXfnQwGpmr40xCbV/cfojxr9b2+mwI4DbQ1afwZs6WZ7ZavkKjVx6BI1xDBbH7spFtz/09UyT6T3ma8FX4t8dxpXjaalkhND+JgKKqMEjtPfXpZQvn6lUeUdffgQm3kiJI+vqVHiWCK/0nnZztVvEqZjWZJwY="
 script:
 - echo "ok"
 after_success:

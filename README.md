@@ -1,6 +1,5 @@
 # Frame Timing API
 
-This specification defines an interface to help web developers measure the performance of their applications by giving them access to frame performance data to facilitate smoothness (i.e. Frames per Second and Time to Frame) measurements.
+This specification defines an interface for web applications to access runtime performance information of the browser event loop, enabling them to identify and fix issues that cause delayed rendering, processing of input, and other critical work necessary to deliver a smooth and responsive user experience.
 
-* [Explainer doc](https://github.com/w3c/frame-timing/wiki/Explainer)
 * [Latest draft](http://w3c.github.io/frame-timing)

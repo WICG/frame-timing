@@ -113,23 +113,23 @@
     <h2>Frame Timing</h2>
     <section>
       <h2><dfn>PerformanceFrameTiming</dfn> interface</h2>
-      <dl title='interface PerformanceFrameTimingEntry : PerformanceEntry'
+      <dl title='interface PerformanceFrameTiming : PerformanceEntry'
       class='idl'>
         <dt>serializer = { inherit, attribute }</dt>
       </dl>
       <section>
         <h2>Attributes</h2>
         <dl class='attributes'>
-          <dt id='widl-PerformanceFrameTimingEntry-name'>`name`</dt>
+          <dt id='widl-PerformanceFrameTiming-name'>`name`</dt>
           <dd>This attribute MUST return the [current document's
           address][].</dd>
-          <dt id='widl-PerformanceFrameTimingEntry-entryType'>
+          <dt id='widl-PerformanceFrameTiming-entryType'>
           <code>entryType</code></dt>
           <dd>This attribute MUST return the [DOMString][] "`frame`".</dd>
-          <dt id='widl-PerformanceFrameTimingEntry-startTime'>`startTime`</dt>
+          <dt id='widl-PerformanceFrameTiming-startTime'>`startTime`</dt>
           <dd>This attribute MUST return a [DOMHighResTimeStamp][] indicating
           the frame start time.</dd>
-          <dt id='widl-PerformanceFrameTimingEntry-duration'>
+          <dt id='widl-PerformanceFrameTiming-duration'>
           <code>duration</code></dt>
           <dd>This attribute MUST return a [DOMHighResTimeStamp][] indicating
           the difference between the startTime's of two successive frames.</dd>

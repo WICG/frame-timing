@@ -113,8 +113,8 @@
     <h2>Frame Timing</h2>
     <section>
       <h2><dfn>PerformanceFrameTiming</dfn> interface</h2>
-      <dl title='interface PerformanceFrameTiming : PerformanceEntry'
-      class='idl'>
+      <dl title='interface PerformanceFrameTiming : PerformanceEntry' class=
+      'idl'>
         <dt>serializer = { inherit, attribute }</dt>
       </dl>
       <section>
@@ -148,7 +148,7 @@
         <li>Let <var>frame startTime</var> be the value that would be returned
         by the `Performance` object's `now()` method.</li>
       </ol>
-      <p>Run the following steps after running [step 9 of the browser
+      <p>Run the following steps after running [step 8.10 of the browser
       processing
       model](https://html.spec.whatwg.org/multipage/webappapis.html#processing-model-8):</p>
       <ol>
@@ -170,7 +170,8 @@
             "#widl-PerformanceFrameTiming-duration">`duration`</a> to
             <var>frame duration</var>.
             </li>
-            <li>[Queue][Queue a PerformanceEntry entry] <var>entry</var>.</li>
+            <li>For each [fully active][] [Document][] in <var>docs</var>,
+            [queue][Queue a PerformanceEntry entry] <var>entry</var>.</li>
           </ol>
         </li>
       </ol>
@@ -220,3 +221,5 @@
 [DOMHighResTimeStamp]: http://www.w3.org/TR/hr-time/#domhighrestimestamp
 [Queue a PerformanceEntry entry]: http://w3c.github.io/performance-timeline/#dfn-queue-a-performanceentry
 [requestIdleCallback]: https://w3c.github.io/requestidlecallback/
+[fully active]: https://html.spec.whatwg.org/#fully-active
+[Document]: https://html.spec.whatwg.org/#document

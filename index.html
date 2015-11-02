@@ -145,7 +145,7 @@
           <code>entryType</code></dt>
           <dd>This attribute MUST return the [DOMString][] "`frame`".</dd>
           <dt id='widl-PerformanceFrameTiming-startTime'>`startTime`</dt>
-          <dd>This attribute MUST return a [DOMHighResTimeStamp][] indicating
+          <dd>This attribute MUST return a [DOMHighResTimeStamp][] [[!HR-Time-2]] indicating
           the frame start time.</dd>
           <dt id='widl-PerformanceFrameTiming-duration'>
           <code>duration</code></dt>
@@ -157,11 +157,11 @@
     <section>
       <h2>Processing</h2>
       <p>The <a>PerformanceFrameTiming</a> interface participates in the
-      [[!Performance-Timeline]] and extends the browser processing model.</p>
+      [[!Performance-Timeline-2]] and extends the browser processing model.</p>
       <p class="issue">TODO: define proper hook in the HTML spec...</p>
       <p>Run the following steps prior to running [step 1 of the browser
       processing
-      model](https://html.spec.whatwg.org/multipage/webappapis.html#processing-model-8):</p>
+      model](https://html.spec.whatwg.org/multipage/webappapis.html#processing-model-8) [[!HTML5]]:</p>
       <ol>
         <li>Let <var>frame startTime</var> be the value that would be returned
         by the `Performance` object's `now()` method.</li>
@@ -235,8 +235,8 @@
 [continuous event loop]: https://html.spec.whatwg.org/multipage/webappapis.html#processing-model-9
 [PerformanceEntry]: http://w3c.github.io/performance-timeline/#idl-def-PerformanceEntry
 [current document's address]: http://www.w3.org/TR/html5/dom.html#the-document's-address
-[DOMString]: http://www.w3.org/TR/WebIDL/#idl-DOMString
-[DOMHighResTimeStamp]: http://www.w3.org/TR/hr-time/#domhighrestimestamp
+[DOMString]: http://www.w3.org/TR/WebIDL-1/#idl-DOMString
+[DOMHighResTimeStamp]: http://w3c.github.io/hr-time/#domhighrestimestamp
 [Queue a PerformanceEntry entry]: http://w3c.github.io/performance-timeline/#dfn-queue-a-performanceentry
 [requestIdleCallback]: https://w3c.github.io/requestidlecallback/
 [fully active]: https://html.spec.whatwg.org/#fully-active

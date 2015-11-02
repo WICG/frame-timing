@@ -70,7 +70,10 @@
     `requestAnimationFrame`, `requestIdleCallback`), running the necessary
     rendering updates, and other necessary work.</p>
     <!-- source: https://docs.google.com/drawings/d/1UTe6xEzjglDE_UvzFmql6dl3j9BTtuFrOqB8ydXfWwM/edit -->
-    <img src="images/frame.png" alt="frame diagram">
+    <figure id='frame-illustration'>
+      <img src="images/frame.png" alt="frame diagram">
+      <figcaption>Illustration of a frame within an event loop</figcaption>
+    </figure>
     <p>If all of the work within each execution of the event loop (i.e. _within
     a "<dfn>frame</dfn>"_) is completed in allotted time budget (e.g. 16.6ms
     for 60Hz refresh rate), the browser can guarantee a smooth and responsive

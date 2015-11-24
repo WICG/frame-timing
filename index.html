@@ -70,7 +70,10 @@
     `requestAnimationFrame`, `requestIdleCallback`), running the necessary
     rendering updates, and other necessary work.</p>
     <!-- source: https://docs.google.com/drawings/d/1UTe6xEzjglDE_UvzFmql6dl3j9BTtuFrOqB8ydXfWwM/edit -->
-    <img src="images/frame.png" alt="frame diagram">
+    <figure id='frame-illustration'>
+      <img src="images/frame.png" alt="frame diagram">
+      <figcaption>Illustration of a frame within an event loop</figcaption>
+    </figure>
     <p>If all of the work within each execution of the event loop (i.e. _within
     a "<dfn>frame</dfn>"_) is completed in allotted time budget (e.g. 16.6ms
     for 60Hz refresh rate), the browser can guarantee a smooth and responsive
@@ -109,14 +112,29 @@
     allotted budget and help the browser deliver an improved user
     experience.</p>
   </section>
+  <section  id="conformance">
+
+    <p>Requirements phrased in the imperative as part of algorithms (such as
+    "strip any leading space characters" or "return false and abort these steps")
+    are to be interpreted with the meaning of the key word ("MUST", "SHOULD",
+    "MAY", etc) used in introducing the algorithm. </p>
+
+    <p>Conformance requirements phrased as algorithms or specific steps MAY be
+    implemented in any manner, so long as the end result is equivalent. (In
+    particular, the algorithms defined in this specification are intended to be
+    easy to follow, and not intended to be performant.) </p>
+
+    <p>The IDL fragments in this specification must be interpreted as
+    required for conforming IDL fragments, as described in the Web IDL
+    specification. [[!WebIDL]]</p>
+</section>
+
   <section>
     <h2>Frame Timing</h2>
     <section>
       <h2><dfn>PerformanceFrameTiming</dfn> interface</h2>
-      <dl title='interface PerformanceFrameTiming : PerformanceEntry' class=
-      'idl'>
-        <dt>serializer = { inherit, attribute }</dt>
-      </dl>
+      <pre class="idl">interface PerformanceFrameTiming : PerformanceEntry {
+};</pre>
       <section>
         <h2>Attributes</h2>
         <dl class='attributes'>
@@ -127,7 +145,7 @@
           <code>entryType</code></dt>
           <dd>This attribute MUST return the [DOMString][] "`frame`".</dd>
           <dt id='widl-PerformanceFrameTiming-startTime'>`startTime`</dt>
-          <dd>This attribute MUST return a [DOMHighResTimeStamp][] indicating
+          <dd>This attribute MUST return a [DOMHighResTimeStamp][] [[!HR-Time-2]] indicating
           the frame start time.</dd>
           <dt id='widl-PerformanceFrameTiming-duration'>
           <code>duration</code></dt>
@@ -139,11 +157,11 @@
     <section>
       <h2>Processing</h2>
       <p>The <a>PerformanceFrameTiming</a> interface participates in the
-      [[!Performance-Timeline]] and extends the browser processing model.</p>
+      [[!Performance-Timeline-2]] and extends the browser processing model.</p>
       <p class="issue">TODO: define proper hook in the HTML spec...</p>
       <p>Run the following steps prior to running [step 1 of the browser
       processing
-      model](https://html.spec.whatwg.org/multipage/webappapis.html#processing-model-8):</p>
+      model](https://html.spec.whatwg.org/multipage/webappapis.html#processing-model-8) [[!HTML5]]:</p>
       <ol>
         <li>Let <var>frame startTime</var> be the value that would be returned
         by the `Performance` object's `now()` method.</li>
@@ -217,8 +235,8 @@
 [continuous event loop]: https://html.spec.whatwg.org/multipage/webappapis.html#processing-model-9
 [PerformanceEntry]: http://w3c.github.io/performance-timeline/#idl-def-PerformanceEntry
 [current document's address]: http://www.w3.org/TR/html5/dom.html#the-document's-address
-[DOMString]: http://www.w3.org/TR/WebIDL/#idl-DOMString
-[DOMHighResTimeStamp]: http://www.w3.org/TR/hr-time/#domhighrestimestamp
+[DOMString]: http://www.w3.org/TR/WebIDL-1/#idl-DOMString
+[DOMHighResTimeStamp]: http://w3c.github.io/hr-time/#domhighrestimestamp
 [Queue a PerformanceEntry entry]: http://w3c.github.io/performance-timeline/#dfn-queue-a-performanceentry
 [requestIdleCallback]: https://w3c.github.io/requestidlecallback/
 [fully active]: https://html.spec.whatwg.org/#fully-active
